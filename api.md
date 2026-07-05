@@ -66,9 +66,22 @@ interface GenerateResult {
 
 | Field | Default | Min | Max |
 |-------|---------|-----|-----|
-| minLength | 4 | 3 | 12 |
-| maxLength | 8 | 3 | 12 |
+| minLength | per-style (see below) | 3 | 12 |
+| maxLength | per-style (see below) | 3 | 12 |
+| pronounceable | per-style (all styles: `true`) | — | — |
 | count | 10 | 1 | 100 |
+
+When `minLength` / `maxLength` / `pronounceable` are omitted, the chosen
+style's `defaults` apply. Explicit options always override them.
+
+| Style | Default minLength | Default maxLength |
+|-------|-------------------|-------------------|
+| old-school | 4 | 7 |
+| modern | 4 | 8 |
+| wildstyle | 6 | 10 |
+| tech | 4 | 7 |
+| minimal | 3 | 5 |
+| hardcore | 5 | 9 |
 
 - `minLength`, `maxLength`, `count` and `seed` must be **integers**; a
   non-integer or `NaN` throws `InvalidOptionsError`

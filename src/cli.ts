@@ -38,9 +38,9 @@ function printHelp(): void {
 Options:
   --style <id>              ${STYLE_IDS.join(" | ")}
   --count <n>               Number of names (default: 10)
-  --min-length <n>          Minimum length (default: 4)
-  --max-length <n>          Maximum length (default: 8)
-  --pronounceable           Require pronounceable clusters (default: true)
+  --min-length <n>          Minimum length (default: per-style)
+  --max-length <n>          Maximum length (default: per-style)
+  --pronounceable           Require pronounceable clusters (default: per-style)
   --no-pronounceable        Allow harsh consonant stacks
   --preferred-letters <s>   Soft letter preference, e.g. KZ
   --forbidden-letters <s>   Hard reject letters, e.g. QW
@@ -59,8 +59,14 @@ function runGenerate(args: Record<string, string | boolean>): void {
     );
   }
 
-  const pronounceable =
-    args["no-pronounceable"] === true ? false : args.pronounceable !== false;
+  let pronounceable: boolean | undefined;
+  if (args["no-pronounceable"] === true) {
+    pronounceable = false;
+  } else if (args.pronounceable === true) {
+    pronounceable = true;
+  } else {
+    pronounceable = undefined;
+  }
 
   const result = generate({
     style: styleValue,

@@ -52,6 +52,33 @@ describe("generator", () => {
      );
   });
 
+  it("applies per-style length defaults when lengths are omitted", () => {
+    const wild = generate({ style: "wildstyle", count: 12, seed: 3 });
+    for (const entry of wild.names) {
+      assert.ok(entry.name.length >= 6, `${entry.name} shorter than 6`);
+      assert.ok(entry.name.length <= 10, `${entry.name} longer than 10`);
+    }
+
+    const minimal = generate({ style: "minimal", count: 12, seed: 3 });
+    for (const entry of minimal.names) {
+      assert.ok(entry.name.length >= 3, `${entry.name} shorter than 3`);
+      assert.ok(entry.name.length <= 5, `${entry.name} longer than 5`);
+    }
+  });
+
+  it("lets explicit lengths override style defaults", () => {
+    const result = generate({
+      style: "wildstyle",
+      count: 8,
+      minLength: 4,
+      maxLength: 5,
+      seed: 3,
+    });
+    for (const entry of result.names) {
+      assert.ok(entry.name.length >= 4 && entry.name.length <= 5);
+    }
+  });
+
   it("respects min and max length", () => {
     const result = generate({
       style: "modern",

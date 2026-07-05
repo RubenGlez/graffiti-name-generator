@@ -11,8 +11,9 @@ import {
 } from "./types.js";
 
 export function generate(options: GenerateOptions): GenerateResult {
-  const normalized = normalizeOptions(options);
   const data = loadData();
+  const styleDefaults = data.styles.get(options.style)?.defaults;
+  const normalized = normalizeOptions(options, styleDefaults);
   const style = getStyle(normalized.style);
 
   if (normalized.prefix && !validateAffix(normalized.prefix, data)) {
