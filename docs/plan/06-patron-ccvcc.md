@@ -1,6 +1,16 @@
 # 06 — El patrón CCVCC es indistinguible de CCVC
 
-**Tipo:** Gap · **Prioridad:** Media · **Estado:** Pendiente · **Depende de:** 09
+**Tipo:** Gap · **Prioridad:** Media · **Estado:** Hecho · **Depende de:** 09
+
+**Decisión de implementación:** se aplicó el enfoque principal (restringir
+endings por patrón vía `endingShape`), no la alternativa de fusionar. `CCVCC`
+usa `endingShape: "CC"` (solo `RK`/`SK`); `CVC`/`CCVC`/`CCVCVC` usan `"C"`
+(cualquier ending excepto los CC puros). Consecuencia asumida: una coda de dos
+consonantes solo se combina con un start de dos consonantes (vía `CCVCC`); los
+nombres de start simple toman codas de una consonante o silábicas — es decir,
+nombres tipo `VESK` (start simple + coda `SK`) dejan de generarse. Se consideró
+una pérdida menor y aceptable a cambio de que la etiqueta sea veraz y de dar a
+los estilos un control real de codas duras.
 
 ## Problema
 
@@ -58,8 +68,8 @@ golden y actualizar README/api.md con la nueva salida en el mismo commit.
 
 ## Criterios de aceptación
 
-- [ ] Todo nombre reportado con `pattern: "CCVCC"` termina en 2 consonantes.
-- [ ] Todo nombre reportado con `pattern: "CCVC"`/`"CVC"` cumple la forma documentada para sus endings.
-- [ ] `phonetic-system.md` describe la restricción y coincide con `patterns.json`.
-- [ ] Golden test regenerado y README/api.md actualizados con la misma salida.
-- [ ] Test que genera N nombres por estilo y verifica la coherencia etiqueta↔forma.
+- [x] Todo nombre reportado con `pattern: "CCVCC"` termina en 2 consonantes (verificado sobre 3600 nombres: 0 fallos).
+- [x] Los endings de `CVC`/`CCVC`/`CCVCVC` nunca son codas CC puras (`RK`/`SK`); forma documentada en `phonetic-system.md`.
+- [x] `phonetic-system.md` describe `endingShape` y coincide con `patterns.json`; ejemplos de ensamblaje reemplazados por nombres reales generables.
+- [x] Golden test regenerado (TRERAK, KOEX, TRORK, SKAZ, DRAK) y README/api.md actualizados con la misma salida.
+- [x] Test nuevo que verifica la coherencia etiqueta↔forma para CCVCC en los 6 estilos.

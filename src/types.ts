@@ -84,9 +84,17 @@ export interface StyleConfig {
   scoring?: StyleScoring;
 }
 
+export type EndingShape = "CC" | "C";
+
 export interface PatternConfig {
   slots: string[];
   startLength: number;
+  /**
+   * Constrains which endings the ending/ending2 slots may draw:
+   * "CC" = a pure two-consonant coda (e.g. RK, SK); "C" = a single-consonant
+   * or syllabic coda (everything else). Omitted = no constraint.
+   */
+  endingShape?: EndingShape;
 }
 
 export interface BlocksConfig {

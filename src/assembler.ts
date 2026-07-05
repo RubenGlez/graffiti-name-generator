@@ -24,6 +24,23 @@ function filterStartsByLength(starts: string[], length: number): string[] {
   return starts.filter((s) => s.length === length);
 }
 
+/** A pure two-consonant coda such as RK or SK (no vowel). */
+function isConsonantCluster(block: string): boolean {
+  return block.length === 2 && !/[AEIOU]/.test(block);
+}
+
+function endingsForShape(
+  endings: string[],
+  shape: PatternConfig["endingShape"],
+): string[] | undefined {
+  if (!shape) {
+    return undefined;
+  }
+  return shape === "CC"
+    ? endings.filter(isConsonantCluster)
+    : endings.filter((e) => !isConsonantCluster(e));
+}
+
 function pickBlock(
   style: StyleConfig,
   pool: BlockPool,
@@ -70,12 +87,12 @@ export function assembleCandidate(
     if (slot === "start") {
       block = pickBlock(style, pool, rng, validStarts);
       startBlock = block;
+    } else if (slot === "ending" || slot === "ending2") {
+      const allowedEndings = endingsForShape(blocks.endings, pattern.endingShape);
+      block = pickBlock(style, pool, rng, allowedEndings);
+      endBlock = block;
     } else {
       block = pickBlock(style, pool, rng);
-    }
-
-    if (slot === "ending" || slot === "ending2") {
-      endBlock = block;
     }
 
     parts.push(block);

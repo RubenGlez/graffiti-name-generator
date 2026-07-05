@@ -36,26 +36,38 @@ K, X, Z, S, R, N, M, RK, SK, ZE, EX, ON, ER, EN, AK, OX, IX, US
 
 Pattern notation maps to slot picks:
 
-| Pattern | Slots | Structure |
-|---------|-------|-----------|
-| CV | start + nucleus | e.g. V + E → **VE** |
-| CVC | start + nucleus + ending | e.g. V + E + SK → **VESK** |
-| CCVC | start + nucleus + ending | start must be 2-char cluster |
-| CCVCC | start + nucleus + ending | ending may be 1–2 chars |
-| CCVCVC | start + nucleus + ending + nucleus + ending | two syllables |
+| Pattern | Slots | Start width | Ending shape |
+|---------|-------|-------------|--------------|
+| CV | start + nucleus | 1 | — (no ending) |
+| CVC | start + nucleus + ending | 1 | single/syllabic coda |
+| CCVC | start + nucleus + ending | 2 | single/syllabic coda |
+| CCVCC | start + nucleus + ending | 2 | two-consonant coda (RK, SK) |
+| CCVCVC | start + nucleus + bridge + nucleus + ending | 2 | single/syllabic coda |
 
-`patterns.json` defines which slot types each pattern consumes. The assembler
-does not invent structure — it only fills predefined slots.
+`patterns.json` defines which slot types each pattern consumes and, via
+`endingShape`, which endings the ending slot may draw:
+
+- **`"CC"`** (only `CCVCC`): the ending must be a pure two-consonant coda —
+  `RK` or `SK` — so the name genuinely ends in two consonants.
+- **`"C"`** (`CVC`, `CCVC`, `CCVCVC`): the ending is anything *except* a pure
+  two-consonant coda — a single consonant (`K`, `X`, `Z`, …) or a syllabic
+  coda (`ER`, `ON`, `ZE`, `EX`, …). The trailing `C` denotes one coda slot,
+  which may be syllabic; it is not a strict single-phoneme claim.
+
+Consequence: a two-consonant coda (`RK`/`SK`) only pairs with a two-consonant
+start (via `CCVCC`); single-start names take single or syllabic codas.
+
+The assembler does not invent structure — it only fills predefined slots.
 
 ## Assembly examples
 
 | Start | Nucleus | Ending | Result | Pattern |
 |-------|---------|--------|--------|---------|
-| KR | A | ZE | **KRAZE** | CCVC |
-| SK | O | NE | **SKONE** | CCVC |
-| V | E | SK | **VESK** | CVC |
-| TR | AI | X | **TRAIX** | CCVC |
-| ST | O | RK | **STORK** | CCVC |
+| K | OA | — | **KOA** | CV |
+| V | E | ZE | **VEZE** | CVC |
+| KR | EU | S | **KREUS** | CCVC |
+| SK | A | RK | **SKARK** | CCVCC |
+| SK | I | R + EU + S | **SKIREUS** | CCVCVC |
 
 ## Consonant clusters
 
