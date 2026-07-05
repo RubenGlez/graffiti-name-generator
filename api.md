@@ -86,7 +86,9 @@ style's `defaults` apply. Explicit options always override them.
 - `minLength`, `maxLength`, `count` and `seed` must be **integers**; a
   non-integer or `NaN` throws `InvalidOptionsError`
 - `minLength` must be ≤ `maxLength` or throw `InvalidOptionsError`
-- `prefix` + core + `suffix` must fit within min/max length together
+- `prefix` + core + `suffix` must fit within min/max length together;
+  `prefix` + `suffix` must leave at least **2** characters for the generated
+  core (the shortest possible core) or throw `InvalidOptionsError`
 - All string inputs normalized to uppercase before generation
 
 ## Library usage

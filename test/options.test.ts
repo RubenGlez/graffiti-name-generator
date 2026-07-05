@@ -62,4 +62,28 @@ describe("normalizeOptions numeric validation", () => {
     const normalized = normalizeOptions({ style: "modern", seed: 0 });
     assert.equal(normalized.seed, 0);
   });
+
+  it("rejects affixes that leave < 2 chars for the core", () => {
+    assert.throws(
+      () =>
+        normalizeOptions({
+          style: "modern",
+          maxLength: 5,
+          prefix: "AB",
+          suffix: "CD",
+        }),
+      InvalidOptionsError,
+    );
+  });
+
+  it("accepts affixes that leave exactly 2 chars for the core", () => {
+    const normalized = normalizeOptions({
+      style: "modern",
+      maxLength: 6,
+      prefix: "AB",
+      suffix: "CD",
+    });
+    assert.equal(normalized.prefix, "AB");
+    assert.equal(normalized.suffix, "CD");
+  });
 });
