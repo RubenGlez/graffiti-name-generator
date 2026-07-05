@@ -54,14 +54,14 @@ independiente; pueden hacerse en un único commit.
 - [x] Build, lint y tests en verde (66 tests).
 
 **Nota sobre el blocklist (ítem 7):** en la primera pasada se dejó intacto
-pendiente de aprobación. A petición del propietario se aflojó en dos rondas:
-1. Palabras suaves no-insulto: `hell`, `damn`, `crap`, `bloody`, `bugger`.
-2. `ass` (recupera falsos positivos tipo BRASS/CLASS/KASSER; `asshole` sigue
-   bloqueado por su propia entrada) e insultos leves: `jerk`, `moron`,
-   `jackass`, `douche`.
+pendiente de aprobación. Estado final acordado con el propietario. **Desbloqueado** (permitido en
+nombres): palabras suaves no-insulto `hell`, `damn`, `crap`, `bloody`, `bugger`
+y el término muy corto `ass` (recupera falsos positivos tipo BRASS/CLASS/
+KASSER; `asshole` sigue bloqueado por su propia entrada).
 
-Se mantienen bloqueados los slurs y la profanidad fuerte (`fuck`, `cunt`,
-`nigger`, `faggot`, `bitch`, `shit`, `whore`, `retard`, `prick`, `pussy`,
-`cock`, `dick`, `bastard`, `nazi`, `slut`, `twat`, `wanker`, `bollocks`,
-`bullshit`, `piss`, `fag`). El encabezado de `data/blocklist.txt` documenta el
-alcance.
+**Bloqueado:** slurs, profanidad fuerte **e insultos** —incluidos los leves
+`jerk`, `moron`, `jackass`, `douche` (el propietario decidió mantenerlos
+bloqueados)— además de `fuck`, `cunt`, `nigger`, `faggot`, `bitch`, `shit`,
+`whore`, `retard`, `prick`, `pussy`, `cock`, `dick`, `bastard`, `nazi`, `slut`,
+`twat`, `wanker`, `bollocks`, `bullshit`, `piss`, `fag`. El encabezado de
+`data/blocklist.txt` documenta el alcance.
