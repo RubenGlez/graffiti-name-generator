@@ -1,6 +1,6 @@
 # 13 — Limpiezas menores y correcciones de documentación
 
-**Tipo:** Mejora · **Prioridad:** Baja · **Estado:** Pendiente
+**Tipo:** Mejora · **Prioridad:** Baja · **Estado:** Hecho
 
 Cajón de sastre de hallazgos menores de la revisión. Cada ítem es
 independiente; pueden hacerse en un único commit.
@@ -47,8 +47,12 @@ independiente; pueden hacerse en un único commit.
 
 ## Criterios de aceptación
 
-- [ ] `grep -rn "createRng" src/assembler.ts` no devuelve nada.
-- [ ] Ningún ejemplo de `phonetic-system.md` / `api.md` usa bloques inexistentes ni palabras de diccionario.
-- [ ] `filters-and-wordlists.md` documenta el matching por substring y sus falsos positivos.
-- [ ] README, api.md y styles.md son coherentes entre sí tras 04/06.
-- [ ] Build, lint y tests en verde.
+- [x] `grep -rn "createRng" src/assembler.ts` no devuelve nada (import y re-export eliminados; la variable `slots` ya la quitó el punto 09).
+- [x] Ejemplos de `phonetic-system.md` (arreglados en 06) y `api.md` (arreglados aquí) usan salidas reales generables. `scoring.md` conserva KRAZE/SKONE/VESK **a propósito**: ilustran la función de scoring pura (verificados por `scorer.test.ts`), no output de generación.
+- [x] `filters-and-wordlists.md` documenta el matching por substring y el problema Scunthorpe con ejemplos.
+- [x] README, api.md y styles.md coherentes entre sí tras 04/06.
+- [x] Build, lint y tests en verde (66 tests).
+
+**Nota sobre el blocklist (ítem 7):** se dejó **intacto** — retirar términos de
+alto ruido (p. ej. `hell`) requiere aprobación del propietario según la guía de
+este documento. Solo se documentó la limitación; no se tocó `data/blocklist.txt`.

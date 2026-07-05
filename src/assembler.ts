@@ -1,4 +1,4 @@
-import { pickWeighted, createRng } from "./rng.js";
+import { pickWeighted } from "./rng.js";
 import { loadData, getStyle } from "./loader.js";
 import type {
   AssembledCandidate,
@@ -104,5 +104,3 @@ export function assembleCandidate(
     endBlock: endBlock.toUpperCase(),
   };
 }
-
-export { createRng };
