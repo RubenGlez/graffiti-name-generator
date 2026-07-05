@@ -40,6 +40,7 @@ Pattern notation maps to slot picks:
 |---------|-------|-------------|--------------|
 | CV | start + nucleus | 1 | — (no ending) |
 | CVC | start + nucleus + ending | 1 | single/syllabic coda |
+| CVCC | start + nucleus + ending | 1 | two-consonant coda (RK, SK) |
 | CCVC | start + nucleus + ending | 2 | single/syllabic coda |
 | CCVCC | start + nucleus + ending | 2 | two-consonant coda (RK, SK) |
 | CCVCVC | start + nucleus + bridge + nucleus + ending | 2 | single/syllabic coda |
@@ -47,15 +48,17 @@ Pattern notation maps to slot picks:
 `patterns.json` defines which slot types each pattern consumes and, via
 `endingShape`, which endings the ending slot may draw:
 
-- **`"CC"`** (only `CCVCC`): the ending must be a pure two-consonant coda —
-  `RK` or `SK` — so the name genuinely ends in two consonants.
+- **`"CC"`** (`CVCC`, `CCVCC`): the ending must be a pure two-consonant coda —
+  `RK` or `SK` — so the name genuinely ends in two consonants. `CVCC` pairs it
+  with a single-consonant start (e.g. `VESK`, `NARK`), `CCVCC` with a
+  two-consonant start (e.g. `TRORK`).
 - **`"C"`** (`CVC`, `CCVC`, `CCVCVC`): the ending is anything *except* a pure
   two-consonant coda — a single consonant (`K`, `X`, `Z`, …) or a syllabic
   coda (`ER`, `ON`, `ZE`, `EX`, …). The trailing `C` denotes one coda slot,
   which may be syllabic; it is not a strict single-phoneme claim.
 
-Consequence: a two-consonant coda (`RK`/`SK`) only pairs with a two-consonant
-start (via `CCVCC`); single-start names take single or syllabic codas.
+Both the onset width (`C` vs `CC`) and the coda shape are encoded in the
+label, so `pattern` faithfully describes the name's consonant frame.
 
 The assembler does not invent structure — it only fills predefined slots.
 
@@ -65,6 +68,7 @@ The assembler does not invent structure — it only fills predefined slots.
 |-------|---------|--------|--------|---------|
 | K | OA | — | **KOA** | CV |
 | V | E | ZE | **VEZE** | CVC |
+| V | E | SK | **VESK** | CVCC |
 | KR | EU | S | **KREUS** | CCVC |
 | SK | A | RK | **SKARK** | CCVCC |
 | SK | I | R + EU + S | **SKIREUS** | CCVCVC |

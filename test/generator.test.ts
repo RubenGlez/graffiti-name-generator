@@ -72,11 +72,11 @@ describe("generator", () => {
         seed: 123,
       });
       for (const { name, pattern } of result.names) {
-        if (pattern === "CCVCC") {
+        if (pattern.endsWith("CC")) {
           const [a, b] = [name.at(-2)!, name.at(-1)!];
           assert.ok(
             isConsonant(a) && isConsonant(b),
-            `${name} (${style}) labeled CCVCC but does not end in two consonants`,
+            `${name} (${style}) labeled ${pattern} but does not end in two consonants`,
           );
         }
       }

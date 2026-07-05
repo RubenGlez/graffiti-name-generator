@@ -3,14 +3,19 @@
 **Tipo:** Gap · **Prioridad:** Media · **Estado:** Hecho · **Depende de:** 09
 
 **Decisión de implementación:** se aplicó el enfoque principal (restringir
-endings por patrón vía `endingShape`), no la alternativa de fusionar. `CCVCC`
-usa `endingShape: "CC"` (solo `RK`/`SK`); `CVC`/`CCVC`/`CCVCVC` usan `"C"`
-(cualquier ending excepto los CC puros). Consecuencia asumida: una coda de dos
-consonantes solo se combina con un start de dos consonantes (vía `CCVCC`); los
-nombres de start simple toman codas de una consonante o silábicas — es decir,
-nombres tipo `VESK` (start simple + coda `SK`) dejan de generarse. Se consideró
-una pérdida menor y aceptable a cambio de que la etiqueta sea veraz y de dar a
-los estilos un control real de codas duras.
+endings por patrón vía `endingShape`), no la alternativa de fusionar. `CVCC` y
+`CCVCC` usan `endingShape: "CC"` (solo `RK`/`SK`); `CVC`/`CCVC`/`CCVCVC` usan
+`"C"` (cualquier ending excepto los CC puros).
+
+**Actualización posterior (a petición del propietario):** la primera versión
+solo definía `CCVCC` para codas duras, con lo que los nombres de start simple +
+coda dura (tipo `VESK`) dejaban de generarse. Como esa forma C-V-C-C es muy
+adecuada para grafiti, se **añadió el patrón `CVCC`** (start de 1 consonante +
+vocal + coda `RK`/`SK`) con peso en los seis estilos (5–18 según carácter).
+Así se recuperan `VESK`, `NARK`, `XORK`, `KORK`… manteniendo la veracidad de la
+etiqueta: todo patrón que acaba en `CC` termina de verdad en dos consonantes.
+El golden de old-school seed 42 no cambió (esa secuencia de rolls no selecciona
+`CVCC` en los primeros intentos).
 
 ## Problema
 
