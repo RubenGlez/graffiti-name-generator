@@ -53,6 +53,11 @@ independiente; pueden hacerse en un único commit.
 - [x] README, api.md y styles.md coherentes entre sí tras 04/06.
 - [x] Build, lint y tests en verde (66 tests).
 
-**Nota sobre el blocklist (ítem 7):** se dejó **intacto** — retirar términos de
-alto ruido (p. ej. `hell`) requiere aprobación del propietario según la guía de
-este documento. Solo se documentó la limitación; no se tocó `data/blocklist.txt`.
+**Nota sobre el blocklist (ítem 7):** en la primera pasada se dejó intacto
+pendiente de aprobación. A petición del propietario (los nombres de grafiti
+usan a menudo palabras "macarras" tipo *hell/infierno* sin ser insultos), se
+desbloquearon las **5 palabras suaves no-insulto**: `hell`, `damn`, `crap`,
+`bloody`, `bugger`. Todo lo demás —slurs e insultos, incluido `ass`— sigue
+bloqueado. El encabezado de `data/blocklist.txt` documenta ahora este alcance.
+Ampliar el desbloqueo (p. ej. quitar `ass` para recuperar BRASS/CLASS, o
+insultos leves como `jerk`/`moron`) es editar el `.txt`, una línea por término.
