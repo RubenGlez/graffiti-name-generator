@@ -1,6 +1,6 @@
 # 12 — Cobertura de tests transversal
 
-**Tipo:** Mejora · **Prioridad:** Media · **Estado:** Pendiente · **Depende de:** 01–07 (los puntos previos añaden sus propios tests; este cubre lo restante)
+**Tipo:** Mejora · **Prioridad:** Media · **Estado:** Hecho · **Depende de:** 01–07 (los puntos previos añaden sus propios tests; este cubre lo restante)
 
 ## Problema
 
@@ -47,6 +47,7 @@ comportamiento que va a cambiar):
 
 ## Criterios de aceptación
 
-- [ ] Todos los escenarios listados tienen test y la suite completa pasa.
-- [ ] Los tests de CLI ejecutan el artefacto compilado real (mismo que usará el usuario final vía `bin`).
-- [ ] La suite corre en CI (punto 08) en Node 20 y 22.
+- [x] Escenarios cubiertos: CLI (golden human/json, exit codes, warning de `exhausted` por stderr, `--help`, comando desconocido), loader (caché/resolución/validación, punto 11), generador (`exhausted: true`, `seed: 0`, forbidden en prefix, `validateAffix` fallando, barrido de blocklist) y assembler (consistencia `startBlock`/`endBlock`, determinismo).
+- [x] Los tests de CLI ejecutan el binario compilado real vía `spawnSync` (`dist-test/src/cli.js`, mismo código que el `bin`).
+- [x] Suite completa: 66 tests en verde; cobertura 95.74% líneas / 100% funciones (`npm run test:coverage`).
+- [x] La suite corre en CI (punto 08) en Node 20 y 22.

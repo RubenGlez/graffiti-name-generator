@@ -32,7 +32,7 @@ re-litigarse al implementar:
 | 08 | [Infraestructura: CI, LICENSE, linter](./08-infraestructura.md) | Mejora | Media | Hecho | 01 |
 | 10 | [CLI con util.parseArgs](./10-cli-parseargs.md) | Mejora | Baja | Hecho | 02 |
 | 11 | [Robustez del loader](./11-loader-robustez.md) | Mejora | Baja | Hecho | — |
-| 12 | [Cobertura de tests](./12-cobertura-tests.md) | Mejora | Media | Pendiente | 01–07 |
+| 12 | [Cobertura de tests](./12-cobertura-tests.md) | Mejora | Media | Hecho | 01–07 |
 | 13 | [Limpiezas menores y docs](./13-limpiezas-menores.md) | Mejora | Baja | Pendiente | — |
 
 ### Fases sugeridas
