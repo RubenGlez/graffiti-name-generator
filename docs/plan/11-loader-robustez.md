@@ -1,6 +1,6 @@
 # 11 — Robustez del loader y validación de datos
 
-**Tipo:** Mejora · **Prioridad:** Baja · **Estado:** Pendiente
+**Tipo:** Mejora · **Prioridad:** Baja · **Estado:** Hecho
 
 ## Problema
 
@@ -47,7 +47,8 @@
 
 ## Criterios de aceptación
 
-- [ ] Un JSON con sintaxis rota reporta el detalle del `SyntaxError` original en el mensaje.
-- [ ] Cada regla de `validateData` tiene un test con un data-dir temporal malformado (usar `setDataDir` hacia fixtures en el scratchpad del test) que verifica `MissingDataError` con mensaje útil.
-- [ ] Los datos reales del repo pasan la validación (regresión: `loadData()` con el `data/` actual no lanza).
-- [ ] `getStyle`/`loadData` siguen cacheando igual; `setDataDir` sigue invalidando la caché.
+- [x] Un JSON con sintaxis rota reporta el detalle del `SyntaxError` original (`Invalid JSON in <path>: <detail>`).
+- [x] Reglas de `validateData` cubiertas por tests con data-dirs temporales malformados (clave de bloque desconocida, cluster con vocal, patrón inexistente, peso negativo, defaults fuera de límites, JSON roto).
+- [x] Los datos reales del repo pasan la validación (test `accepts the real data unchanged`).
+- [x] `loadData` sigue cacheando (misma referencia); `setDataDir` invalida; `MissingDataError` con dir inexistente.
+- [x] Sin dependencias nuevas; `SLOT_TO_POOL` no se importó (se definió `VALID_SLOTS` local para evitar ciclo assembler↔loader).
