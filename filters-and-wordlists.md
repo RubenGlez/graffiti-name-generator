@@ -67,6 +67,14 @@ Spanish (e.g. ending in -ON) but only English dictionary words are rejected.
 A candidate is rejected if **any** blocklist term appears as a substring.
 This catches embedded slurs inside longer names (e.g. `XXSLURXX`).
 
+**Known limitation (Scunthorpe problem):** substring matching also rejects
+innocent names that merely *contain* a blocklisted sequence — e.g. any name
+with `ASS` (`KASSER`), `HELL` (`SHELLK`) or `COCK` is dropped even though it is
+inoffensive. This is an accepted MVP trade-off: over-rejecting is safer than
+letting a slur through, and the procedural space is large enough to absorb the
+loss. A future iteration could switch to word- or phoneme-boundary matching to
+recover those names; that is explicitly out of scope for now.
+
 ## Prefix and suffix
 
 - Applied **after** block assembly, **before** length check

@@ -107,7 +107,7 @@ const result = generate({
 });
 
 console.log(result.names.map((n) => n.name));
-// e.g. ["KRAZE", "SKONE", "TRAX", "VEKS", "DRAK"]
+// ["TRERAK", "KOEX", "TRORK", "SKAZ", "DRAK"]
 ```
 
 ## CLI
@@ -128,8 +128,9 @@ graffiti-names generate \
 **Default (human):**
 
 ```
-KRAZE  (score: 10, pattern: CCVC)
-SKONE  (score: 5, pattern: CCVC)
+TRERAK  (score: 5, pattern: CCVC)
+KOEX  (score: 9, pattern: CVC)
+TRORK  (score: 5, pattern: CCVCC)
 ...
 ```
 
@@ -138,14 +139,15 @@ SKONE  (score: 5, pattern: CCVC)
 ```json
 {
   "names": [
-    { "name": "KRAZE", "score": 10, "pattern": "CCVC" }
+    { "name": "TRERAK", "score": 5, "pattern": "CCVC" },
+    { "name": "KOEX", "score": 9, "pattern": "CVC" }
   ],
   "meta": {
     "style": "old-school",
     "seed": 42,
     "requested": 10,
-    "attempts": 47,
-    "rejected": 37,
+    "attempts": 13,
+    "rejected": 3,
     "exhausted": false
   }
 }
