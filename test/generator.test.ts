@@ -198,7 +198,7 @@ describe("generator", () => {
       InvalidOptionsError,
     );
     assert.throws(
-      () => generate({ style: "modern", suffix: "ASS", seed: 1 }),
+      () => generate({ style: "modern", suffix: "SHIT", seed: 1 }),
       InvalidOptionsError,
     );
   });

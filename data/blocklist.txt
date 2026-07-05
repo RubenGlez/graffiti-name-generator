@@ -1,8 +1,8 @@
 # Offensive substring blocklist (MVP subset)
-# Scope: slurs and strong profanity only. Mild edgy words that suit graffiti
-# tags without being insults (e.g. hell, damn) are intentionally NOT listed.
+# Scope: slurs and strong profanity only. Mild edgy words (hell, damn) and mild
+# insults (jerk, moron, jackass, douche) are intentionally NOT listed, and the
+# very short 'ass' was dropped to avoid rejecting innocent names (BRASS, CLASS).
 # See filters-and-wordlists.md for the substring-matching trade-off.
-ass
 asshole
 bastard
 bitch
@@ -11,15 +11,11 @@ bullshit
 cock
 cunt
 dick
-douche
 fag
 faggot
 fuck
 fucker
 fucking
-jackass
-jerk
-moron
 nazi
 nigga
 nigger
