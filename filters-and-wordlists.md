@@ -76,6 +76,27 @@ This catches embedded slurs inside longer names (e.g. `XXSLURXX`).
 
 Example: prefix `MC` + blocks `RAZE` → `MCRAZE` (full string checked).
 
+### Affixes and pronounceability
+
+When `pronounceable: true`, cluster validation runs over the **full**
+prefix+core+suffix string, not just the generated core. Word-boundary
+exceptions (the start/end block being its own onset/coda cluster) only apply
+when the boundary is *clean*:
+
+- The **start** exception applies only if the prefix is empty or ends in a
+  vowel. A consonant-ending prefix merges with the core's start block into an
+  internal junction (e.g. prefix `N` + core `KRURK` → run `NKR`) that must
+  itself be an approved cluster, or the candidate is rejected.
+- The **end** exception applies only if the suffix is empty or starts with a
+  vowel. A consonant-starting suffix merges with the core's ending (e.g. core
+  `...RK` + suffix `S` → run `RKS`) and is validated the same way.
+
+Consequence: a consonant-ending prefix on a cluster-heavy style (e.g.
+`--prefix N --style hardcore`, whose cores nearly always open with a
+two-consonant cluster) can leave **no** pronounceable candidates; the run then
+reports `exhausted: true` and the CLI prints a warning. Use a vowel-ending
+prefix, a lighter style, or `--no-pronounceable` in that case.
+
 ## Duplicate handling
 
 - **Within batch:** track `Set<string>` of accepted uppercase names

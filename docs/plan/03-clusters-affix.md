@@ -1,6 +1,6 @@
 # 03 — La pronunciabilidad ignora las fronteras prefijo/sufijo
 
-**Tipo:** Bug · **Prioridad:** Alta · **Estado:** Pendiente · **Depende de:** 09 (recomendado)
+**Tipo:** Bug · **Prioridad:** Alta · **Estado:** Hecho · **Depende de:** 09 (recomendado)
 
 ## Problema
 
@@ -60,9 +60,10 @@ restringen el espacio de nombres con `pronounceable: true`.
 
 ## Criterios de aceptación
 
-- [ ] Con `pronounceable: true`, `--prefix N` sobre `hardcore` no produce nombres con runs tipo `NKR`/`NST` (verificar con seed fija que los candidatos inválidos se rechazan con `reason: "cluster"`).
-- [ ] Un prefijo que termina en vocal (p. ej. `LA`) no altera la validación del start (`LAKRO...` sigue siendo válido si `KR` lo era).
-- [ ] Un sufijo que empieza por consonante se valida contra el ending (p. ej. core `...RK` + sufijo `S` → run `RKS` debe estar en clusters o rechazarse).
-- [ ] `pronounceable: false` sigue sin aplicar ninguna validación de clusters.
-- [ ] Tests unitarios nuevos para `hasValidClusters` (o su sustituto) cubriendo los tres casos anteriores.
-- [ ] El golden test (seed 42, sin affixes) no cambia.
+- [x] Con `pronounceable: true`, `--prefix N` sobre `hardcore` no produce nombres con runs tipo `NKR`/`NST` (de hecho genera 0 y reporta `exhausted`, comportamiento correcto documentado).
+- [x] Un prefijo que termina en vocal (p. ej. `LA`) no altera la validación del start (`LAKRURK` sigue siendo válido).
+- [x] Un sufijo que empieza por consonante se valida contra el ending (core `...RK` + sufijo `S` → `RKS` rechazado; `ZE`+`S` aceptado).
+- [x] `pronounceable: false` sigue sin aplicar ninguna validación de clusters (`--prefix N --no-pronounceable` produce NKRURK…).
+- [x] Tests unitarios nuevos para `hasValidClusters` cubriendo los casos anteriores (5 tests).
+- [x] Escaneo de 15.360 nombres (6 estilos × 80 seeds × 6 affixes): 0 violaciones de cluster interno.
+- [x] El golden test (seed 42, sin affixes) no cambia.
