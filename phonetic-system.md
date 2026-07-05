@@ -70,7 +70,9 @@ BR, CH, CR, DR, FR, GR, KR, PR, SK, SL, SM, SN, SP, ST, SH, TR, TH,
 BL, CL, FL, GL, PL, SC, SCR, SPL, SPR, STR, THR
 ```
 
-Full list lives in `data/clusters.json`.
+Full list lives in `data/clusters.json`. Every entry is a pure **consonant**
+sequence: cluster validation only ever inspects runs of consonants, so
+vowel-bearing tokens (endings like `ZE`, `EX`) never belong here.
 
 ## Length
 

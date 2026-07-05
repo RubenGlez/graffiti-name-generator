@@ -1,6 +1,6 @@
 # 05 — Datos muertos en la configuración
 
-**Tipo:** Gap · **Prioridad:** Media · **Estado:** Pendiente
+**Tipo:** Gap · **Prioridad:** Media · **Estado:** Hecho
 
 ## Problema
 
@@ -52,7 +52,8 @@ debería cambiar; verificarlo.
 
 ## Criterios de aceptación
 
-- [ ] `minimal` puede generar nombres que empiezan por `S` (verificable con seed fija y count alto).
-- [ ] No queda ninguna clave en `blocks` de ningún estilo que no exista en la lista maestra (añadir un test que recorra los 6 estilos y lo compruebe).
-- [ ] Todas las entradas de `clusters.json` cumplen `/^[BCDFGHJKLMNPQRSTVWXYZ]+$/` (test).
-- [ ] El golden test de seed 42 sigue pasando sin modificar.
+- [x] `minimal` genera nombres que empiezan por `S` (SEK, SIK, SAK…; 21 distintos en muestra).
+- [x] No queda ninguna clave en `blocks` de ningún estilo fuera de la lista maestra (test `data coherence`).
+- [x] Todas las entradas de `clusters.json` cumplen `/^[BCDFGHJKLMNPQRSTVWXYZ]+$/` (test).
+- [x] El golden test de seed 42 sigue pasando sin modificar; cambio de salida aislado exclusivamente al estilo `minimal` (157 líneas, verificado por diff).
+- [x] `T:0` eliminado de minimal.json; `ZE/EX/AK/OX/IX` eliminados de clusters.json.

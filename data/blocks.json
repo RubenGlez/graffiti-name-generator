@@ -1,6 +1,6 @@
 {
   "starts": [
-    "K", "KR", "SK", "TR", "DR", "GR", "BR", "ST", "SP", "SM", "SN", "SH", "CH", "V", "X", "Z", "N", "R", "M"
+    "K", "KR", "SK", "TR", "DR", "GR", "BR", "ST", "SP", "SM", "SN", "SH", "CH", "V", "X", "Z", "N", "R", "M", "S"
   ],
   "nuclei": ["A", "E", "I", "O", "U", "AR", "ER", "OR", "AI", "EI", "OA"],
   "endings": [
