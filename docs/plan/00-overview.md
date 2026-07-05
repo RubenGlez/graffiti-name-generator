@@ -25,7 +25,7 @@ re-litigarse al implementar:
 | 02 | [Validación numérica (NaN)](./02-validacion-numerica.md) | Bug | Alta | Hecho | — |
 | 09 | [Refactor: assembler devuelve bloques reales](./09-refactor-assembler.md) | Mejora | Alta | Hecho | — |
 | 03 | [Clusters en fronteras de affix](./03-clusters-affix.md) | Bug | Alta | Hecho | 09 (recomendado) |
-| 04 | [Defaults por estilo](./04-defaults-estilo.md) | Gap | Media | Pendiente | 02 |
+| 04 | [Defaults por estilo](./04-defaults-estilo.md) | Gap | Media | Hecho | 02 |
 | 05 | [Datos muertos en configuración](./05-datos-muertos.md) | Gap | Media | Pendiente | — |
 | 06 | [Patrón CCVCC idéntico a CCVC](./06-patron-ccvcc.md) | Gap | Media | Pendiente | 09 |
 | 07 | [Off-by-one en validación de affix](./07-affix-off-by-one.md) | Gap | Baja | Pendiente | — |

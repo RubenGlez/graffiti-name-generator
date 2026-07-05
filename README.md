@@ -74,14 +74,18 @@ console.log(result.names.map(n => `${n.name} (Score: ${n.score})`));
 |--------|------|---------|-------------|
 | `style` | `StyleId` | **Required** | `"old-school" \| "modern" \| "wildstyle" \| "tech" \| "minimal" \| "hardcore"` |
 | `count` | `number` | `10` | Number of names to generate (range: `1 - 100`) |
-| `minLength` | `number` | `4` | Minimum length of generated names (range: `3 - 12`) |
-| `maxLength` | `number` | `8` | Maximum length of generated names (range: `3 - 12`) |
-| `pronounceable` | `boolean` | `true` | When true, rejects unapproved consonant clusters |
+| `minLength` | `number` | *per-style* | Minimum length of generated names (range: `3 - 12`) |
+| `maxLength` | `number` | *per-style* | Maximum length of generated names (range: `3 - 12`) |
+| `pronounceable` | `boolean` | *per-style* (`true`) | When true, rejects unapproved consonant clusters |
 | `preferredLetters`| `string` | `""` | Letters to favor. Missing these inflicts a `-2` penalty |
 | `forbiddenLetters`| `string` | `""` | Reject names containing any of these characters |
 | `prefix` | `string` | `""` | Static prefix prepended to names (max 4 chars) |
 | `suffix` | `string` | `""` | Static suffix appended to names (max 4 chars) |
 | `seed` | `number` | *random* | Seed value for deterministic output sequence |
+
+When `minLength`, `maxLength` or `pronounceable` are omitted, the selected
+style's own defaults apply (e.g. `wildstyle` → 6–10, `minimal` → 3–5); see
+[styles.md](./styles.md). Numeric options must be integers.
 
 ---
 
@@ -101,9 +105,9 @@ Usage: graffiti-names generate [options]
 Options:
   --style <id>              old-school | modern | wildstyle | tech | minimal | hardcore
   --count <n>               Number of names (default: 10)
-  --min-length <n>          Minimum length (default: 4)
-  --max-length <n>          Maximum length (default: 8)
-  --pronounceable           Require pronounceable clusters (default: true)
+  --min-length <n>          Minimum length (default: per-style)
+  --max-length <n>          Maximum length (default: per-style)
+  --pronounceable           Require pronounceable clusters (default: per-style)
   --no-pronounceable        Allow harsh consonant stacks
   --preferred-letters <s>   Soft letter preference, e.g. KZ
   --forbidden-letters <s>   Hard reject letters, e.g. QW

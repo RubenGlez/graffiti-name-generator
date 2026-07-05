@@ -29,13 +29,40 @@ function requireInt(
   return value;
 }
 
-export function normalizeOptions(options: GenerateOptions): NormalizedOptions {
+export interface StyleDefaults {
+  minLength: number;
+  maxLength: number;
+  pronounceable: boolean;
+}
+
+const GLOBAL_DEFAULTS: StyleDefaults = {
+  minLength: 4,
+  maxLength: 8,
+  pronounceable: true,
+};
+
+export function normalizeOptions(
+  options: GenerateOptions,
+  styleDefaults?: StyleDefaults,
+): NormalizedOptions {
   if (!STYLE_IDS.includes(options.style)) {
     throw new InvalidOptionsError(`Unknown style: ${options.style}`);
   }
 
-  const minLength = requireInt(options.minLength ?? 4, "minLength", MIN_LEN, MAX_LEN);
-  const maxLength = requireInt(options.maxLength ?? 8, "maxLength", MIN_LEN, MAX_LEN);
+  const defaults = styleDefaults ?? GLOBAL_DEFAULTS;
+
+  const minLength = requireInt(
+    options.minLength ?? defaults.minLength,
+    "minLength",
+    MIN_LEN,
+    MAX_LEN,
+  );
+  const maxLength = requireInt(
+    options.maxLength ?? defaults.maxLength,
+    "maxLength",
+    MIN_LEN,
+    MAX_LEN,
+  );
   const count = requireInt(options.count ?? 10, "count", 1, MAX_COUNT);
   const prefix = normalizeUpper(options.prefix);
   const suffix = normalizeUpper(options.suffix);
@@ -68,7 +95,7 @@ export function normalizeOptions(options: GenerateOptions): NormalizedOptions {
     minLength,
     maxLength,
     count,
-    pronounceable: options.pronounceable ?? true,
+    pronounceable: options.pronounceable ?? defaults.pronounceable,
     preferredLetters: normalizeUpper(options.preferredLetters),
     forbiddenLetters: normalizeUpper(options.forbiddenLetters),
     prefix,

@@ -1,6 +1,6 @@
 # 04 — Aplicar los `defaults` por estilo
 
-**Tipo:** Gap spec/código · **Prioridad:** Media · **Estado:** Pendiente · **Depende de:** 02
+**Tipo:** Gap spec/código · **Prioridad:** Media · **Estado:** Hecho · **Depende de:** 02
 
 **Decisión tomada por el propietario (no re-litigar):** los `defaults` del
 JSON de cada estilo se aplican cuando el usuario no pasa
@@ -60,9 +60,9 @@ node dist/src/cli.js generate --style wildstyle --count 8 --seed 3
 
 ## Criterios de aceptación
 
-- [ ] `generate({ style: "wildstyle", seed: N })` sin longitudes produce solo nombres de 6–10 caracteres.
-- [ ] `generate({ style: "minimal", seed: N })` sin longitudes produce solo nombres de 3–5 caracteres.
-- [ ] Pasar `minLength`/`maxLength` explícitos sigue teniendo prioridad sobre el estilo.
-- [ ] `--no-pronounceable` en CLI sigue funcionando; sin flags, aplica el default del estilo.
-- [ ] El golden test (seed 42) no cambia porque pasa longitudes explícitas; añadir un golden nuevo sin longitudes para un estilo con defaults distintos de 4/8.
-- [ ] `api.md`, `README.md` y la ayuda del CLI actualizados y coherentes entre sí.
+- [x] `generate({ style: "wildstyle", seed: N })` sin longitudes produce solo nombres de 6–10 caracteres.
+- [x] `generate({ style: "minimal", seed: N })` sin longitudes produce solo nombres de 3–5 caracteres.
+- [x] Pasar `minLength`/`maxLength` explícitos sigue teniendo prioridad sobre el estilo.
+- [x] `--no-pronounceable` en CLI sigue funcionando; sin flags, aplica el default del estilo (CLI pasa `undefined`).
+- [x] El golden test (seed 42) no cambia porque pasa longitudes explícitas; añadidos tests de rango por estilo (wildstyle/minimal) y de override explícito.
+- [x] `api.md`, `README.md` y la ayuda del CLI actualizados y coherentes entre sí.
