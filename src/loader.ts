@@ -26,8 +26,10 @@ export function getDataDir(): string {
 
   const moduleDir = dirname(fileURLToPath(import.meta.url));
   const candidates = [
-    join(moduleDir, "..", "..", "data"),
+    // Published/library layout: dist/loader.js -> ../data
     join(moduleDir, "..", "data"),
+    // Test layout: dist-test/src/loader.js -> ../../data
+    join(moduleDir, "..", "..", "data"),
     join(process.cwd(), "data"),
   ];
 

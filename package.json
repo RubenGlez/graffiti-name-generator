@@ -6,7 +6,7 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "graffiti-names": "./dist/src/cli.js"
+    "graffiti-names": "./dist/cli.js"
   },
   "exports": {
     ".": {
@@ -20,8 +20,8 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && node --test dist/test/*.test.js",
-    "generate": "node dist/src/cli.js generate"
+    "test": "tsc -p tsconfig.test.json && node --test dist-test/test/*.test.js",
+    "generate": "node dist/cli.js generate"
   },
   "engines": {
     "node": ">=20"

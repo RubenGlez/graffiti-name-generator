@@ -1,6 +1,6 @@
 # 01 — Entry points del paquete rotos
 
-**Tipo:** Bug · **Prioridad:** Alta · **Estado:** Pendiente
+**Tipo:** Bug · **Prioridad:** Alta · **Estado:** Hecho
 
 ## Problema
 
@@ -64,8 +64,8 @@ publicación de `dist/test/**`.
 
 ## Criterios de aceptación
 
-- [ ] `npm run build && node -e "import('./dist/index.js').then(m => console.log(typeof m.generate))"` imprime `function`.
-- [ ] `npm pack --dry-run` no incluye ningún archivo de test ni `dist-test/`.
-- [ ] `npm test` pasa (19+ tests).
-- [ ] `npm run generate -- --style old-school --count 5 --seed 42` produce el golden output actual (TREREX, TROM, SKAK, DRAK, KRIZE).
-- [ ] El CLI instalado vía `bin` resuelve `data/` correctamente (probar `node dist/cli.js generate --style modern` desde un cwd distinto a la raíz del repo).
+- [x] `npm run build && node -e "import('./dist/index.js').then(m => console.log(typeof m.generate))"` imprime `function`.
+- [x] `npm pack --dry-run` no incluye ningún archivo de test ni `dist-test/`.
+- [x] `npm test` pasa (19+ tests).
+- [x] `npm run generate -- --style old-school --count 5 --seed 42` produce el golden output actual (TREREX, TROM, SKAK, DRAK, KRIZE).
+- [x] El CLI instalado vía `bin` resuelve `data/` correctamente (probar `node dist/cli.js generate --style modern` desde un cwd distinto a la raíz del repo).
