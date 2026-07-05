@@ -1,4 +1,3 @@
-import { loadData } from "./loader.js";
 import {
   applyPreferredPenalty,
   getThreshold,
@@ -68,44 +67,11 @@ export function hasValidClusters(
   return true;
 }
 
-function extractStartAndEndBlocks(core: string, pattern: string): {
-  startBlock: string;
-  endBlock: string;
-} {
-  const data = loadData();
-  const patternConfig = data.patterns[pattern];
-  if (!patternConfig) {
-    return { startBlock: core.slice(0, 1), endBlock: core.slice(-1) };
-  }
-
-  const startLen = patternConfig.startLength;
-  let endBlock = "";
-
-  if (pattern === "CCVCVC") {
-    const slots = patternConfig.slots;
-    endBlock = core.slice(-2);
-    return { startBlock: core.slice(0, startLen), endBlock };
-  }
-
-  for (const len of [2, 1]) {
-    const candidate = core.slice(-len);
-    if (data.blocks.endings.includes(candidate)) {
-      endBlock = candidate;
-      break;
-    }
-  }
-
-  if (!endBlock) {
-    endBlock = core.slice(-1);
-  }
-
-  return { startBlock: core.slice(0, startLen), endBlock };
-}
-
 export function checkCandidate(
   fullName: string,
   core: string,
-  pattern: string,
+  startBlock: string,
+  endBlock: string,
   options: NormalizedOptions,
   style: StyleConfig,
   data: LoadedData,
@@ -138,7 +104,6 @@ export function checkCandidate(
   }
 
   if (options.pronounceable) {
-    const { startBlock, endBlock } = extractStartAndEndBlocks(core, pattern);
     if (!hasValidClusters(core, startBlock, endBlock, data.clusters)) {
       return { accepted: false, reason: "cluster" };
     }

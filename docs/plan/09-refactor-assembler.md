@@ -1,6 +1,6 @@
 # 09 — Refactor: el assembler devuelve los bloques reales
 
-**Tipo:** Mejora (habilitadora de 03 y 06) · **Prioridad:** Alta · **Estado:** Pendiente
+**Tipo:** Mejora (habilitadora de 03 y 06) · **Prioridad:** Alta · **Estado:** Hecho
 
 ## Problema
 
@@ -39,9 +39,22 @@ clusters, y los **re-deriva heurísticamente** en `extractStartAndEndBlocks`
    a `loadData()` dentro del filtro (`src/filters.ts:75`).
 4. `generate()` (`src/generator.ts:44-55`) pasa los campos nuevos.
 
-Refactor puro: **no debe cambiar ningún output** (la heurística actual acierta
-en los datos existentes; el refactor elimina la fragilidad, no corrige
-resultados). El golden test debe pasar sin tocar.
+**Resultado real (verificado):** el refactor NO es puramente cosmético — la
+heurística `extractStartAndEndBlocks` tenía un bug latente. Su caso especial
+`slice(-2)` para `CCVCVC` (y el matching por sufijo) tomaba como "ending
+block" los 2 últimos caracteres, con lo que una unión consonántica interna
+del tipo núcleo-VC + ending (`ER`+`N` → `RN`, `AR`+`Z` → `RZ`, `OR`+`X` →
+`RX`, etc.) se trataba como frontera de palabra y **saltaba la validación de
+clusters**. El bloque real de cierre es `N`/`Z`/`X`, así que esos runs (`RN`,
+`RZ`, `RX`, `RM`, `RS`) son internos y, al no estar en `clusters.json`, deben
+rechazarse. El refactor los rechaza correctamente.
+
+Impacto medido sobre una muestra de 6 estilos × 60 seeds × 4 combinaciones de
+affix (1440 casos): cambian 68 casos, todos por rechazar nombres con esos
+runs internos no aprobados (nombres tipo CHOKERN, SMEZARZ, GRAIZARX…). **El
+golden test (old-school, seed 42) no cambia** porque sus nombres no tocan esa
+unión. Es una mejora de correctitud alineada con `phonetic-system.md` y
+refuerza el punto 03.
 
 Aprovechar para quitar el re-export gratuito de `createRng` en
 `src/assembler.ts:80` (los consumidores ya importan de `./rng.js`) — si se
@@ -54,7 +67,8 @@ prefiere, esto puede quedarse para el punto 13.
 
 ## Criterios de aceptación
 
-- [ ] `extractStartAndEndBlocks` eliminado; ningún caso especial por nombre de patrón en `src/filters.ts`.
-- [ ] `checkCandidate` no llama a `loadData()` para derivar bloques.
-- [ ] El golden test (seed 42) y los 19 tests existentes pasan sin cambiar expectativas (solo adaptación de firmas).
-- [ ] Test nuevo: `assembleCandidate` devuelve `startBlock`/`endBlock` consistentes con `core` para cada patrón (generar N candidatos por estilo y verificar `core.startsWith(startBlock)` / `core.endsWith(endBlock)`).
+- [x] `extractStartAndEndBlocks` eliminado; ningún caso especial por nombre de patrón en `src/filters.ts`.
+- [x] `checkCandidate` no llama a `loadData()` para derivar bloques.
+- [x] El golden test (seed 42) y los tests existentes pasan; las firmas de `checkCandidate` en los tests se adaptaron a `startBlock`/`endBlock`.
+- [x] Verificado que los 68 casos cambiados corresponden únicamente a rechazos correctos de runs internos no aprobados (RN/RZ/RX/RM/RS), no a regresiones.
+- [ ] Test nuevo: `assembleCandidate` devuelve `startBlock`/`endBlock` consistentes con `core` para cada patrón (se añade en el punto 12).
