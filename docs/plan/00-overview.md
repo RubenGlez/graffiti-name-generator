@@ -21,7 +21,7 @@ re-litigarse al implementar:
 
 | # | Documento | Tipo | Prioridad | Estado | Depende de |
 |---|-----------|------|-----------|--------|------------|
-| 01 | [Entry points del paquete rotos](./01-package-entry-points.md) | Bug | Alta | Pendiente | — |
+| 01 | [Entry points del paquete rotos](./01-package-entry-points.md) | Bug | Alta | Hecho | — |
 | 02 | [Validación numérica (NaN)](./02-validacion-numerica.md) | Bug | Alta | Pendiente | — |
 | 09 | [Refactor: assembler devuelve bloques reales](./09-refactor-assembler.md) | Mejora | Alta | Pendiente | — |
 | 03 | [Clusters en fronteras de affix](./03-clusters-affix.md) | Bug | Alta | Pendiente | 09 (recomendado) |
