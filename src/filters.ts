@@ -1,8 +1,4 @@
-import {
-  applyPreferredPenalty,
-  getThreshold,
-  scoreName,
-} from "./scorer.js";
+import { applyPreferredPenalty, getThreshold, scoreName } from "./scorer.js";
 import type {
   FilterResult,
   LoadedData,
@@ -86,7 +82,6 @@ export function hasValidClusters(
 
 export function checkCandidate(
   fullName: string,
-  core: string,
   startBlock: string,
   endBlock: string,
   options: NormalizedOptions,
@@ -124,8 +119,7 @@ export function checkCandidate(
     const startClean =
       options.prefix.length === 0 ||
       isVowel(options.prefix[options.prefix.length - 1]!);
-    const endClean =
-      options.suffix.length === 0 || isVowel(options.suffix[0]!);
+    const endClean = options.suffix.length === 0 || isVowel(options.suffix[0]!);
 
     if (
       !hasValidClusters(

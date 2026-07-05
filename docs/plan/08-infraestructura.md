@@ -1,6 +1,6 @@
 # 08 — Infraestructura: CI, LICENSE, linter/formatter
 
-**Tipo:** Mejora · **Prioridad:** Media · **Estado:** Pendiente · **Depende de:** 01 (scripts de build/test estables)
+**Tipo:** Mejora · **Prioridad:** Media · **Estado:** Hecho · **Depende de:** 01 (scripts de build/test estables)
 
 **Decisión tomada por el propietario:** licencia **MIT**.
 
@@ -42,8 +42,9 @@ El repo no tiene CI, licencia, ni tooling de calidad de código:
 
 ## Criterios de aceptación
 
-- [ ] El workflow de CI pasa en verde en un PR de prueba (build + test + lint en Node 20 y 22).
-- [ ] `LICENSE` MIT presente y `package.json.license === "MIT"`.
-- [ ] `npm run lint` y `npm run format:check` pasan limpios en el repo.
-- [ ] `tsc` con las opciones endurecidas compila sin errores.
-- [ ] La variable sin uso de `src/filters.ts:86` eliminada (si el punto 09 no la eliminó ya con todo `extractStartAndEndBlocks`).
+- [x] Workflow `.github/workflows/ci.yml` (lint + format:check + build + test en Node 20 y 22); secuencia completa verificada en local.
+- [x] `LICENSE` MIT presente y `package.json.license === "MIT"`.
+- [x] `npm run lint` y `npm run format:check` pasan limpios en el repo.
+- [x] `tsc` con `noUnusedLocals`/`noUnusedParameters`/`noUncheckedIndexedAccess` compila sin errores.
+- [x] Hallazgos del primer lint corregidos: import `NormalizedOptions` sin usar en assembler y parámetro muerto `core` en `checkCandidate` (la variable `slots` ya la eliminó el punto 09).
+- [x] Prettier configurado (excluye markdown de prosa); `.editorconfig` añadido.

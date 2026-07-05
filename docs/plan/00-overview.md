@@ -29,7 +29,7 @@ re-litigarse al implementar:
 | 05 | [Datos muertos en configuración](./05-datos-muertos.md) | Gap | Media | Hecho | — |
 | 06 | [Patrón CCVCC idéntico a CCVC](./06-patron-ccvcc.md) | Gap | Media | Hecho | 09 |
 | 07 | [Off-by-one en validación de affix](./07-affix-off-by-one.md) | Gap | Baja | Hecho | — |
-| 08 | [Infraestructura: CI, LICENSE, linter](./08-infraestructura.md) | Mejora | Media | Pendiente | 01 |
+| 08 | [Infraestructura: CI, LICENSE, linter](./08-infraestructura.md) | Mejora | Media | Hecho | 01 |
 | 10 | [CLI con util.parseArgs](./10-cli-parseargs.md) | Mejora | Baja | Pendiente | 02 |
 | 11 | [Robustez del loader](./11-loader-robustez.md) | Mejora | Baja | Pendiente | — |
 | 12 | [Cobertura de tests](./12-cobertura-tests.md) | Mejora | Media | Pendiente | 01–07 |

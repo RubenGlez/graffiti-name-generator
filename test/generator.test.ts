@@ -47,9 +47,9 @@ describe("generator", () => {
     assert.equal(result.meta.seed, 42);
 
     assert.deepEqual(
-       result.names.map((n) => n.name),
+      result.names.map((n) => n.name),
       ["TRERAK", "KOEX", "TRORK", "SKAZ", "DRAK"],
-     );
+    );
   });
 
   it("labels patterns consistently with their ending shape", () => {

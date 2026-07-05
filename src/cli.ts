@@ -92,7 +92,9 @@ function runGenerate(args: Record<string, string | boolean>): void {
   }
 
   for (const entry of result.names) {
-    console.log(`${entry.name}  (score: ${entry.score}, pattern: ${entry.pattern})`);
+    console.log(
+      `${entry.name}  (score: ${entry.score}, pattern: ${entry.pattern})`,
+    );
   }
 
   if (result.meta.exhausted) {

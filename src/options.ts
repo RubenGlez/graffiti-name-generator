@@ -75,11 +75,15 @@ export function normalizeOptions(
   }
 
   if (prefix.length > MAX_AFFIX) {
-    throw new InvalidOptionsError(`prefix must be at most ${MAX_AFFIX} characters`);
+    throw new InvalidOptionsError(
+      `prefix must be at most ${MAX_AFFIX} characters`,
+    );
   }
 
   if (suffix.length > MAX_AFFIX) {
-    throw new InvalidOptionsError(`suffix must be at most ${MAX_AFFIX} characters`);
+    throw new InvalidOptionsError(
+      `suffix must be at most ${MAX_AFFIX} characters`,
+    );
   }
 
   const affixLen = prefix.length + suffix.length;

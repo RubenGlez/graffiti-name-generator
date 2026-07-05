@@ -180,7 +180,21 @@ npm run build
 ```
 
 ### Test
-Runs the test suite using Node's native test runner (vitest is not required):
+Runs the test suite using Node's native test runner (vitest is not required).
+Tests compile to `dist-test/` (git-ignored) so the published `dist/` stays
+clean:
 ```bash
 npm test
 ```
+
+### Lint & format
+ESLint (type-checked) and Prettier keep the sources consistent:
+```bash
+npm run lint          # eslint .
+npm run format        # prettier --write .
+npm run format:check  # prettier --check . (used in CI)
+```
+
+### Continuous integration
+`.github/workflows/ci.yml` runs lint, format check, build and tests on
+Node 20 and 22 for every push to `main` and every pull request.

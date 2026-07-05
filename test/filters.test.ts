@@ -39,7 +39,6 @@ describe("filters", () => {
 
     const result = checkCandidate(
       "DESK",
-      "DESK",
       "D",
       "SK",
       baseOptions,
@@ -58,7 +57,6 @@ describe("filters", () => {
     const accepted = new Set<string>();
 
     const result = checkCandidate(
-      "KRAZE",
       "KRAZE",
       "KR",
       "ZE",
@@ -79,7 +77,6 @@ describe("filters", () => {
 
     const result = checkCandidate(
       "KRAZE",
-      "KRAZE",
       "KR",
       "ZE",
       baseOptions,
@@ -98,7 +95,6 @@ describe("filters", () => {
     const accepted = new Set<string>();
 
     const result = checkCandidate(
-      "KRAZE",
       "KRAZE",
       "KR",
       "ZE",

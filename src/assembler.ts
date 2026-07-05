@@ -3,7 +3,6 @@ import { loadData, getStyle } from "./loader.js";
 import type {
   AssembledCandidate,
   BlocksConfig,
-  NormalizedOptions,
   PatternConfig,
   StyleConfig,
   StyleId,
@@ -69,10 +68,7 @@ export function assembleCandidate(
   }
 
   const parts: string[] = [];
-  const validStarts = filterStartsByLength(
-    blocks.starts,
-    pattern.startLength,
-  );
+  const validStarts = filterStartsByLength(blocks.starts, pattern.startLength);
 
   let startBlock = "";
   let endBlock = "";
@@ -88,7 +84,10 @@ export function assembleCandidate(
       block = pickBlock(style, pool, rng, validStarts);
       startBlock = block;
     } else if (slot === "ending" || slot === "ending2") {
-      const allowedEndings = endingsForShape(blocks.endings, pattern.endingShape);
+      const allowedEndings = endingsForShape(
+        blocks.endings,
+        pattern.endingShape,
+      );
       block = pickBlock(style, pool, rng, allowedEndings);
       endBlock = block;
     } else {
