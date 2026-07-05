@@ -1,0 +1,182 @@
+# Graffiti Name Generator
+
+A fast, deterministic, procedural generator that produces unique, pronounceable graffiti artist names without AI using style-driven phonetic rules.
+
+---
+
+## Features
+
+- **Procedural and Fast:** Generates hundreds of thousands of unique, high-quality names in milliseconds.
+- **Deterministic:** Feed it an optional seed to get the exact same sequence of names every time.
+- **Fully Customizable:** Adjust character lengths, prefix/suffix affixes, allow/forbid specific characters, and choose from six distinct graffiti styles.
+- **Data-Driven:** Styles, phonetic blocks, allowed patterns, and consonant clusters are fully defined via JSON data files.
+- **English Wordlist and offensive filter:** Automatically checks names against a dictionary list of ~9,300 common English words and filters offensive slurs.
+- **CLI & Library API:** Use the utility library in your TypeScript/JavaScript ESM projects, or run it instantly from the command line.
+
+---
+
+## Project Structure
+
+Detailed specifications are split across the following documents:
+
+| Documentation File | Contents |
+|--------------------|----------|
+| [graffiti-name-generator-spec.md](./graffiti-name-generator-spec.md) | High-level goal, parameters, and design principles. |
+| [architecture.md](./architecture.md) | Repository modules, data-driven architecture, and layout description. |
+| [phonetic-system.md](./phonetic-system.md) | Slots (Starts, Nuclei, Endings), assembly patterns, and cluster rules. |
+| [styles.md](./styles.md) | Descriptions and JSON schema of the six available styles. |
+| [scoring.md](./scoring.md) | Score calculations, bonuses, penalties, and threshold calibrations. |
+| [filters-and-wordlists.md](./filters-and-wordlists.md) | Dictionary checks, slur blocklists, and pronounceability parameters. |
+| [combinatorics.md](./combinatorics.md) | Estimation calculations for naming pool size and collision statistics. |
+| [api.md](./api.md) | API types, error codes, and contract details. |
+
+---
+
+## Installation
+
+Ensure you have **Node.js >= 20** installed.
+
+```bash
+npm install
+```
+
+---
+
+## Library Usage
+
+The generator is packaged as an ESM module.
+
+```typescript
+import { generate } from "@graffiti-name-generator/core";
+
+const result = generate({
+  style: "old-school",
+  count: 5,
+  minLength: 4,
+  maxLength: 8,
+  seed: 42,
+});
+
+console.log(result.names.map(n => `${n.name} (Score: ${n.score})`));
+// Output:
+// [
+//   "TREREX (Score: 10)",
+//   "TROM (Score: 3)",
+//   "SKAK (Score: 7)",
+//   "DRAK (Score: 2)",
+//   "KRIZE (Score: 14)"
+// ]
+```
+
+### Options API
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `style` | `StyleId` | **Required** | `"old-school" \| "modern" \| "wildstyle" \| "tech" \| "minimal" \| "hardcore"` |
+| `count` | `number` | `10` | Number of names to generate (range: `1 - 100`) |
+| `minLength` | `number` | `4` | Minimum length of generated names (range: `3 - 12`) |
+| `maxLength` | `number` | `8` | Maximum length of generated names (range: `3 - 12`) |
+| `pronounceable` | `boolean` | `true` | When true, rejects unapproved consonant clusters |
+| `preferredLetters`| `string` | `""` | Letters to favor. Missing these inflicts a `-2` penalty |
+| `forbiddenLetters`| `string` | `""` | Reject names containing any of these characters |
+| `prefix` | `string` | `""` | Static prefix prepended to names (max 4 chars) |
+| `suffix` | `string` | `""` | Static suffix appended to names (max 4 chars) |
+| `seed` | `number` | *random* | Seed value for deterministic output sequence |
+
+---
+
+## Command Line Interface (CLI)
+
+Use the built-in generator binary for quick name generation.
+
+### Run via npm script
+```bash
+npm run generate -- --style old-school --count 5 --seed 42
+```
+
+### Options
+```text
+Usage: graffiti-names generate [options]
+
+Options:
+  --style <id>              old-school | modern | wildstyle | tech | minimal | hardcore
+  --count <n>               Number of names (default: 10)
+  --min-length <n>          Minimum length (default: 4)
+  --max-length <n>          Maximum length (default: 8)
+  --pronounceable           Require pronounceable clusters (default: true)
+  --no-pronounceable        Allow harsh consonant stacks
+  --preferred-letters <s>   Soft letter preference, e.g. KZ
+  --forbidden-letters <s>   Hard reject letters, e.g. QW
+  --prefix <s>              Prefix up to 4 chars
+  --suffix <s>              Suffix up to 4 chars
+  --seed <n>                RNG seed for reproducible output
+  --format <human|json>     Output format (default: human)
+```
+
+### Example Outputs
+
+#### Human Format
+```bash
+npm run generate -- --style old-school --count 5 --seed 42
+```
+```text
+TREREX  (score: 10, pattern: CCVC)
+TROM  (score: 3, pattern: CCVCC)
+SKAK  (score: 7, pattern: CCVC)
+DRAK  (score: 2, pattern: CCVC)
+KRIZE  (score: 14, pattern: CCVCC)
+```
+
+#### JSON Format
+```bash
+npm run generate -- --style old-school --count 5 --seed 42 --format json
+```
+```json
+{
+  "names": [
+    { "name": "TREREX", "score": 10, "pattern": "CCVC" },
+    { "name": "TROM", "score": 3, "pattern": "CCVCC" },
+    { "name": "SKAK", "score": 7, "pattern": "CCVC" },
+    { "name": "DRAK", "score": 2, "pattern": "CCVC" },
+    { "name": "KRIZE", "score": 14, "pattern": "CCVCC" }
+  ],
+  "meta": {
+    "style": "old-school",
+    "seed": 42,
+    "requested": 5,
+    "attempts": 6,
+    "rejected": 1,
+    "exhausted": false
+  }
+}
+```
+
+---
+
+## Phonetic Assembly & Scoring
+
+Names are assembled from three slot categories: **Starts** (consonants like `KR`, `SK`, `V`), **Nuclei** (vowels like `A`, `OR`, `AI`), and **Endings** (coda consonants like `ZE`, `X`, `RK`).
+
+### Scoring Criteria
+Candidates are scored and filtered:
+- **Bonuses:** Letters `K`, `Z`, or `X` (+2 each); starts with `KR`, `SK`, or `TR` (+3); ends with `ZE`, `SK`, or `X` (+3).
+- **Style Overrides:** Styles define custom prefixes, suffixes, and letter bonuses which stack with global parameters.
+- **Penalties:** Three consecutive vowels (-5); four consecutive consonants (-5); missing all user-preferred letters (-2).
+- **Threshold:** Discards candidates scoring below `0` (or style-specific minimums).
+- **Hard Rejects:** Exceeding length limits, containing forbidden letters, matching dictionary entries, or matching bad/slur substrings.
+
+---
+
+## Development
+
+### Build
+Compiles TypeScript files into ESM JavaScript (`dist/` directory):
+```bash
+npm run build
+```
+
+### Test
+Runs the test suite using Node's native test runner (vitest is not required):
+```bash
+npm test
+```

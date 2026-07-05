@@ -1,0 +1,22 @@
+{
+  "CV": {
+    "slots": ["start", "nucleus"],
+    "startLength": 1
+  },
+  "CVC": {
+    "slots": ["start", "nucleus", "ending"],
+    "startLength": 1
+  },
+  "CCVC": {
+    "slots": ["start", "nucleus", "ending"],
+    "startLength": 2
+  },
+  "CCVCC": {
+    "slots": ["start", "nucleus", "ending"],
+    "startLength": 2
+  },
+  "CCVCVC": {
+    "slots": ["start", "nucleus", "bridge", "nucleus2", "ending2"],
+    "startLength": 2
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "id": "modern",
+  "label": "Modern",
+  "defaults": {
+    "minLength": 4,
+    "maxLength": 8,
+    "pronounceable": true
+  },
+  "patterns": {
+    "CV": 25,
+    "CVC": 40,
+    "CCVC": 25,
+    "CCVCC": 8,
+    "CCVCVC": 2
+  },
+  "blocks": {
+    "starts": {
+      "V": 12, "N": 12, "R": 12, "M": 12, "K": 10, "Z": 10,
+      "SK": 8, "TR": 8, "DR": 8, "ST": 6, "SP": 6, "GR": 5, "BR": 5,
+      "KR": 5, "X": 5, "SH": 4, "CH": 4, "SM": 3, "SN": 3
+    },
+    "nuclei": {
+      "A": 18, "E": 18, "O": 18, "I": 15, "U": 12,
+      "AR": 4, "ER": 4, "OR": 4, "AI": 3, "EI": 3, "OA": 3
+    },
+    "endings": {
+      "K": 12, "R": 12, "N": 12, "S": 10, "M": 10, "X": 8, "Z": 8,
+      "SK": 8, "RK": 6, "ER": 6, "EN": 6, "ON": 5, "AK": 5,
+      "ZE": 4, "EX": 4, "OX": 3, "IX": 3, "US": 3
+    },
+    "bridges": {
+      "R": 15, "N": 15, "S": 12, "K": 12, "M": 10, "Z": 10, "X": 8
+    }
+  },
+  "scoring": {
+    "threshold": 0
+  }
+}

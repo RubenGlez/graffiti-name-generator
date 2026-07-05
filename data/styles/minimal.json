@@ -1,0 +1,37 @@
+{
+  "id": "minimal",
+  "label": "Minimal",
+  "defaults": {
+    "minLength": 3,
+    "maxLength": 5,
+    "pronounceable": true
+  },
+  "patterns": {
+    "CV": 45,
+    "CVC": 45,
+    "CCVC": 8,
+    "CCVCC": 2,
+    "CCVCVC": 0
+  },
+  "blocks": {
+    "starts": {
+      "K": 15, "V": 15, "Z": 15, "N": 15, "R": 15, "M": 15,
+      "X": 8, "S": 5, "T": 0,
+      "SK": 3, "TR": 3, "DR": 2, "ST": 2, "SP": 2
+    },
+    "nuclei": {
+      "A": 25, "E": 25, "O": 20, "I": 15, "U": 10,
+      "AR": 2, "ER": 2, "OR": 1
+    },
+    "endings": {
+      "K": 15, "X": 12, "Z": 12, "R": 12, "N": 12, "M": 10, "S": 8,
+      "RK": 5, "SK": 5, "AK": 4, "ER": 3, "EN": 3
+    },
+    "bridges": {
+      "K": 10, "R": 10, "N": 10, "S": 10, "Z": 8, "M": 8, "X": 8
+    }
+  },
+  "scoring": {
+    "threshold": 0
+  }
+}

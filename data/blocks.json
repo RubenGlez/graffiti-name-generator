@@ -1,0 +1,10 @@
+{
+  "starts": [
+    "K", "KR", "SK", "TR", "DR", "GR", "BR", "ST", "SP", "SM", "SN", "SH", "CH", "V", "X", "Z", "N", "R", "M"
+  ],
+  "nuclei": ["A", "E", "I", "O", "U", "AR", "ER", "OR", "AI", "EI", "OA"],
+  "endings": [
+    "K", "X", "Z", "S", "R", "N", "M", "RK", "SK", "ZE", "EX", "ON", "ER", "EN", "AK", "OX", "IX", "US"
+  ],
+  "bridges": ["K", "X", "Z", "S", "R", "N", "M"]
+}

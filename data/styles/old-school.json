@@ -1,0 +1,40 @@
+{
+  "id": "old-school",
+  "label": "Old School",
+  "defaults": {
+    "minLength": 4,
+    "maxLength": 7,
+    "pronounceable": true
+  },
+  "patterns": {
+    "CV": 10,
+    "CVC": 30,
+    "CCVC": 35,
+    "CCVCC": 20,
+    "CCVCVC": 5
+  },
+  "blocks": {
+    "starts": {
+      "KR": 20, "SK": 20, "TR": 15, "DR": 10, "GR": 8, "BR": 8,
+      "ST": 5, "SP": 5, "V": 5, "X": 5, "Z": 5, "K": 8,
+      "SH": 3, "CH": 3, "SM": 2, "SN": 2, "N": 2, "R": 2, "M": 2
+    },
+    "nuclei": {
+      "A": 20, "O": 20, "E": 15, "I": 10, "U": 8,
+      "AR": 5, "ER": 5, "OR": 4, "AI": 3, "EI": 3, "OA": 3
+    },
+    "endings": {
+      "ZE": 20, "SK": 15, "X": 15, "K": 12, "RK": 10,
+      "Z": 8, "EX": 5, "AK": 5, "OX": 4, "S": 4, "R": 3, "N": 3, "M": 3,
+      "ER": 3, "EN": 3, "ON": 3, "IX": 3, "US": 2
+    },
+    "bridges": {
+      "K": 15, "Z": 12, "X": 12, "S": 10, "R": 10, "N": 8, "M": 8
+    }
+  },
+  "scoring": {
+    "threshold": 0,
+    "bonusPrefixes": ["KR", "SK"],
+    "bonusSuffixes": ["ZE", "X"]
+  }
+}

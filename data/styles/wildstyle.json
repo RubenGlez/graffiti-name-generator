@@ -1,0 +1,39 @@
+{
+  "id": "wildstyle",
+  "label": "Wildstyle",
+  "defaults": {
+    "minLength": 6,
+    "maxLength": 10,
+    "pronounceable": true
+  },
+  "patterns": {
+    "CV": 5,
+    "CVC": 15,
+    "CCVC": 25,
+    "CCVCC": 30,
+    "CCVCVC": 25
+  },
+  "blocks": {
+    "starts": {
+      "SK": 15, "KR": 15, "TR": 12, "DR": 12, "GR": 10, "BR": 10,
+      "ST": 10, "SP": 10, "SH": 8, "CH": 8, "SM": 6, "SN": 6,
+      "X": 5, "Z": 5, "K": 5, "V": 3, "N": 3, "R": 3, "M": 3
+    },
+    "nuclei": {
+      "A": 15, "O": 15, "E": 12, "I": 10, "U": 10,
+      "AR": 8, "ER": 8, "OR": 6, "AI": 5, "EI": 5, "OA": 5
+    },
+    "endings": {
+      "RK": 15, "SK": 15, "ZE": 12, "X": 12, "K": 10, "Z": 10,
+      "EX": 8, "AK": 8, "OX": 6, "IX": 6, "ER": 5, "EN": 5,
+      "ON": 4, "S": 4, "R": 3, "N": 3, "M": 3, "US": 3
+    },
+    "bridges": {
+      "K": 12, "Z": 12, "X": 12, "R": 10, "S": 10, "N": 8, "M": 8
+    }
+  },
+  "scoring": {
+    "threshold": 0,
+    "bonusLetters": ["K", "X", "Z"]
+  }
+}

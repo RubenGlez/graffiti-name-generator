@@ -1,0 +1,40 @@
+{
+  "id": "tech",
+  "label": "Tech",
+  "defaults": {
+    "minLength": 4,
+    "maxLength": 7,
+    "pronounceable": true
+  },
+  "patterns": {
+    "CV": 10,
+    "CVC": 35,
+    "CCVC": 40,
+    "CCVCC": 12,
+    "CCVCVC": 3
+  },
+  "blocks": {
+    "starts": {
+      "X": 18, "Z": 15, "K": 15, "SK": 12, "TR": 10, "KR": 8,
+      "V": 6, "ST": 5, "SP": 5, "DR": 5, "GR": 4, "BR": 4,
+      "SH": 3, "CH": 3, "N": 2, "R": 2, "M": 2, "SM": 2, "SN": 2
+    },
+    "nuclei": {
+      "A": 15, "E": 18, "I": 15, "O": 12, "U": 10,
+      "AI": 6, "EI": 6, "AR": 4, "ER": 4, "OR": 4, "OA": 4
+    },
+    "endings": {
+      "X": 20, "EX": 15, "OX": 12, "IX": 12, "AK": 10, "K": 10,
+      "Z": 8, "SK": 8, "RK": 6, "ZE": 5, "S": 4, "R": 3, "N": 3, "M": 3,
+      "ER": 3, "EN": 3, "ON": 3, "US": 2
+    },
+    "bridges": {
+      "X": 18, "K": 15, "Z": 15, "S": 10, "R": 8, "N": 8, "M": 8
+    }
+  },
+  "scoring": {
+    "threshold": 0,
+    "bonusLetters": ["X", "K", "Z"],
+    "bonusSuffixes": ["EX", "OX", "IX", "X"]
+  }
+}
