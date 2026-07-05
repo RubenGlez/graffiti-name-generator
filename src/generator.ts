@@ -17,17 +17,23 @@ export function generate(options: GenerateOptions): GenerateResult {
   const style = getStyle(normalized.style);
 
   if (normalized.prefix && !validateAffix(normalized.prefix, data)) {
-    throw new InvalidOptionsError("prefix fails dictionary or blocklist validation");
+    throw new InvalidOptionsError(
+      "prefix fails dictionary or blocklist validation",
+    );
   }
 
   if (normalized.suffix && !validateAffix(normalized.suffix, data)) {
-    throw new InvalidOptionsError("suffix fails dictionary or blocklist validation");
+    throw new InvalidOptionsError(
+      "suffix fails dictionary or blocklist validation",
+    );
   }
 
   if (normalized.forbiddenLetters) {
     for (const letter of normalized.prefix + normalized.suffix) {
       if (normalized.forbiddenLetters.includes(letter)) {
-        throw new InvalidOptionsError("prefix or suffix contains forbidden letter");
+        throw new InvalidOptionsError(
+          "prefix or suffix contains forbidden letter",
+        );
       }
     }
   }
@@ -50,7 +56,6 @@ export function generate(options: GenerateOptions): GenerateResult {
 
     const result = checkCandidate(
       fullName,
-      core,
       startBlock,
       endBlock,
       normalized,

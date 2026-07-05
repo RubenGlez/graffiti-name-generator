@@ -1,10 +1,5 @@
 export type StyleId =
-  | "old-school"
-  | "modern"
-  | "wildstyle"
-  | "tech"
-  | "minimal"
-  | "hardcore";
+  "old-school" | "modern" | "wildstyle" | "tech" | "minimal" | "hardcore";
 
 export const STYLE_IDS: readonly StyleId[] = [
   "old-school",
