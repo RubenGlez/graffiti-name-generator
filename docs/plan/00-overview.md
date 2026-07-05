@@ -27,7 +27,7 @@ re-litigarse al implementar:
 | 03 | [Clusters en fronteras de affix](./03-clusters-affix.md) | Bug | Alta | Hecho | 09 (recomendado) |
 | 04 | [Defaults por estilo](./04-defaults-estilo.md) | Gap | Media | Hecho | 02 |
 | 05 | [Datos muertos en configuración](./05-datos-muertos.md) | Gap | Media | Hecho | — |
-| 06 | [Patrón CCVCC idéntico a CCVC](./06-patron-ccvcc.md) | Gap | Media | Pendiente | 09 |
+| 06 | [Patrón CCVCC idéntico a CCVC](./06-patron-ccvcc.md) | Gap | Media | Hecho | 09 |
 | 07 | [Off-by-one en validación de affix](./07-affix-off-by-one.md) | Gap | Baja | Pendiente | — |
 | 08 | [Infraestructura: CI, LICENSE, linter](./08-infraestructura.md) | Mejora | Media | Pendiente | 01 |
 | 10 | [CLI con util.parseArgs](./10-cli-parseargs.md) | Mejora | Baja | Pendiente | 02 |

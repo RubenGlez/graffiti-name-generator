@@ -48,8 +48,39 @@ describe("generator", () => {
 
     assert.deepEqual(
        result.names.map((n) => n.name),
-      ["TREREX", "TROM", "SKAK", "DRAK", "KRIZE"],
+      ["TRERAK", "KOEX", "TRORK", "SKAZ", "DRAK"],
      );
+  });
+
+  it("labels patterns consistently with their ending shape", () => {
+    const styles = [
+      "old-school",
+      "modern",
+      "wildstyle",
+      "tech",
+      "minimal",
+      "hardcore",
+    ] as const;
+    const isConsonant = (c: string) => /[BCDFGHJKLMNPQRSTVWXYZ]/.test(c);
+
+    for (const style of styles) {
+      const result = generate({
+        style,
+        count: 20,
+        minLength: 3,
+        maxLength: 12,
+        seed: 123,
+      });
+      for (const { name, pattern } of result.names) {
+        if (pattern === "CCVCC") {
+          const [a, b] = [name.at(-2)!, name.at(-1)!];
+          assert.ok(
+            isConsonant(a) && isConsonant(b),
+            `${name} (${style}) labeled CCVCC but does not end in two consonants`,
+          );
+        }
+      }
+    }
   });
 
   it("applies per-style length defaults when lengths are omitted", () => {
