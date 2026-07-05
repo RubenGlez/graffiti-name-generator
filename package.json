@@ -2,11 +2,12 @@
   "name": "@graffiti-name-generator/core",
   "version": "0.1.0",
   "description": "Procedural graffiti artist name generator",
+  "license": "MIT",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "graffiti-names": "./dist/src/cli.js"
+    "graffiti-names": "./dist/cli.js"
   },
   "exports": {
     ".": {
@@ -20,14 +21,23 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "npm run build && node --test dist/test/*.test.js",
-    "generate": "node dist/src/cli.js generate"
+    "test": "tsc -p tsconfig.test.json && node --test dist-test/test/*.test.js",
+    "test:coverage": "tsc -p tsconfig.test.json && node --test --experimental-test-coverage dist-test/test/*.test.js",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "generate": "node dist/cli.js generate"
   },
   "engines": {
     "node": ">=20"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.4",
     "@types/node": "^22.10.0",
-    "typescript": "^5.7.2"
+    "eslint": "^9.39.4",
+    "eslint-config-prettier": "^9.1.2",
+    "prettier": "^3.9.4",
+    "typescript": "^5.7.2",
+    "typescript-eslint": "^8.62.1"
   }
 }

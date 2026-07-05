@@ -9,6 +9,7 @@
   "patterns": {
     "CV": 45,
     "CVC": 45,
+    "CVCC": 5,
     "CCVC": 8,
     "CCVCC": 2,
     "CCVCVC": 0
@@ -16,7 +17,7 @@
   "blocks": {
     "starts": {
       "K": 15, "V": 15, "Z": 15, "N": 15, "R": 15, "M": 15,
-      "X": 8, "S": 5, "T": 0,
+      "X": 8, "S": 5,
       "SK": 3, "TR": 3, "DR": 2, "ST": 2, "SP": 2
     },
     "nuclei": {

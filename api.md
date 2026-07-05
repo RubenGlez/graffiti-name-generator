@@ -66,12 +66,29 @@ interface GenerateResult {
 
 | Field | Default | Min | Max |
 |-------|---------|-----|-----|
-| minLength | 4 | 3 | 12 |
-| maxLength | 8 | 3 | 12 |
+| minLength | per-style (see below) | 3 | 12 |
+| maxLength | per-style (see below) | 3 | 12 |
+| pronounceable | per-style (all styles: `true`) | — | — |
 | count | 10 | 1 | 100 |
 
+When `minLength` / `maxLength` / `pronounceable` are omitted, the chosen
+style's `defaults` apply. Explicit options always override them.
+
+| Style | Default minLength | Default maxLength |
+|-------|-------------------|-------------------|
+| old-school | 4 | 7 |
+| modern | 4 | 8 |
+| wildstyle | 6 | 10 |
+| tech | 4 | 7 |
+| minimal | 3 | 5 |
+| hardcore | 5 | 9 |
+
+- `minLength`, `maxLength`, `count` and `seed` must be **integers**; a
+  non-integer or `NaN` throws `InvalidOptionsError`
 - `minLength` must be ≤ `maxLength` or throw `InvalidOptionsError`
-- `prefix` + core + `suffix` must fit within min/max length together
+- `prefix` + core + `suffix` must fit within min/max length together;
+  `prefix` + `suffix` must leave at least **2** characters for the generated
+  core (the shortest possible core) or throw `InvalidOptionsError`
 - All string inputs normalized to uppercase before generation
 
 ## Library usage
@@ -90,7 +107,7 @@ const result = generate({
 });
 
 console.log(result.names.map((n) => n.name));
-// e.g. ["KRAZE", "SKONE", "TRAX", "VEKS", "DRAK"]
+// ["TRERAK", "KOEX", "TRORK", "SKAZ", "DRAK"]
 ```
 
 ## CLI
@@ -111,8 +128,9 @@ graffiti-names generate \
 **Default (human):**
 
 ```
-KRAZE  (score: 10, pattern: CCVC)
-SKONE  (score: 5, pattern: CCVC)
+TRERAK  (score: 5, pattern: CCVC)
+KOEX  (score: 9, pattern: CVC)
+TRORK  (score: 5, pattern: CCVCC)
 ...
 ```
 
@@ -121,14 +139,15 @@ SKONE  (score: 5, pattern: CCVC)
 ```json
 {
   "names": [
-    { "name": "KRAZE", "score": 10, "pattern": "CCVC" }
+    { "name": "TRERAK", "score": 5, "pattern": "CCVC" },
+    { "name": "KOEX", "score": 9, "pattern": "CVC" }
   ],
   "meta": {
     "style": "old-school",
     "seed": 42,
     "requested": 10,
-    "attempts": 47,
-    "rejected": 37,
+    "attempts": 13,
+    "rejected": 3,
     "exhausted": false
   }
 }

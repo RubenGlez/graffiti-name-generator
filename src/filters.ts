@@ -1,9 +1,4 @@
-import { loadData } from "./loader.js";
-import {
-  applyPreferredPenalty,
-  getThreshold,
-  scoreName,
-} from "./scorer.js";
+import { applyPreferredPenalty, getThreshold, scoreName } from "./scorer.js";
 import type {
   FilterResult,
   LoadedData,
@@ -39,73 +34,56 @@ function getConsonantRuns(name: string): string[] {
   return runs;
 }
 
+/**
+ * Validate every consonant run of `name` (the full prefix+core+suffix).
+ *
+ * A run is acceptable if it is an approved cluster, or if it is the word's
+ * onset (the start block) or coda (the end block) at a *clean* word boundary.
+ * A boundary is clean when the affix on that side is empty or ends/starts with
+ * a vowel; a consonant-ending prefix (or consonant-starting suffix) merges with
+ * the core into an internal junction that must itself be an approved cluster.
+ */
 export function hasValidClusters(
-  core: string,
+  name: string,
   startBlock: string,
   endBlock: string,
+  startClean: boolean,
+  endClean: boolean,
   clusters: Set<string>,
 ): boolean {
-  const runs = getConsonantRuns(core);
+  const runs = getConsonantRuns(name);
 
   for (const run of runs) {
-    if (run === startBlock || run === endBlock) {
+    if (clusters.has(run)) {
       continue;
     }
 
-    if (core.startsWith(run) && startBlock.startsWith(run)) {
+    if (
+      startClean &&
+      name.startsWith(run) &&
+      (run === startBlock || startBlock.startsWith(run))
+    ) {
       continue;
     }
 
-    if (core.endsWith(run) && endBlock.endsWith(run)) {
+    if (
+      endClean &&
+      name.endsWith(run) &&
+      (run === endBlock || endBlock.endsWith(run))
+    ) {
       continue;
     }
 
-    if (!clusters.has(run)) {
-      return false;
-    }
+    return false;
   }
 
   return true;
 }
 
-function extractStartAndEndBlocks(core: string, pattern: string): {
-  startBlock: string;
-  endBlock: string;
-} {
-  const data = loadData();
-  const patternConfig = data.patterns[pattern];
-  if (!patternConfig) {
-    return { startBlock: core.slice(0, 1), endBlock: core.slice(-1) };
-  }
-
-  const startLen = patternConfig.startLength;
-  let endBlock = "";
-
-  if (pattern === "CCVCVC") {
-    const slots = patternConfig.slots;
-    endBlock = core.slice(-2);
-    return { startBlock: core.slice(0, startLen), endBlock };
-  }
-
-  for (const len of [2, 1]) {
-    const candidate = core.slice(-len);
-    if (data.blocks.endings.includes(candidate)) {
-      endBlock = candidate;
-      break;
-    }
-  }
-
-  if (!endBlock) {
-    endBlock = core.slice(-1);
-  }
-
-  return { startBlock: core.slice(0, startLen), endBlock };
-}
-
 export function checkCandidate(
   fullName: string,
-  core: string,
-  pattern: string,
+  startBlock: string,
+  endBlock: string,
   options: NormalizedOptions,
   style: StyleConfig,
   data: LoadedData,
@@ -138,8 +116,21 @@ export function checkCandidate(
   }
 
   if (options.pronounceable) {
-    const { startBlock, endBlock } = extractStartAndEndBlocks(core, pattern);
-    if (!hasValidClusters(core, startBlock, endBlock, data.clusters)) {
+    const startClean =
+      options.prefix.length === 0 ||
+      isVowel(options.prefix[options.prefix.length - 1]!);
+    const endClean = options.suffix.length === 0 || isVowel(options.suffix[0]!);
+
+    if (
+      !hasValidClusters(
+        fullName,
+        startBlock,
+        endBlock,
+        startClean,
+        endClean,
+        data.clusters,
+      )
+    ) {
       return { accepted: false, reason: "cluster" };
     }
   }

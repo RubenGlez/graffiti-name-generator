@@ -60,11 +60,11 @@ const result = generate({
 console.log(result.names.map(n => `${n.name} (Score: ${n.score})`));
 // Output:
 // [
-//   "TREREX (Score: 10)",
-//   "TROM (Score: 3)",
-//   "SKAK (Score: 7)",
-//   "DRAK (Score: 2)",
-//   "KRIZE (Score: 14)"
+//   "TRERAK (Score: 5)",
+//   "KOEX (Score: 9)",
+//   "TRORK (Score: 5)",
+//   "SKAZ (Score: 9)",
+//   "DRAK (Score: 2)"
 // ]
 ```
 
@@ -74,14 +74,18 @@ console.log(result.names.map(n => `${n.name} (Score: ${n.score})`));
 |--------|------|---------|-------------|
 | `style` | `StyleId` | **Required** | `"old-school" \| "modern" \| "wildstyle" \| "tech" \| "minimal" \| "hardcore"` |
 | `count` | `number` | `10` | Number of names to generate (range: `1 - 100`) |
-| `minLength` | `number` | `4` | Minimum length of generated names (range: `3 - 12`) |
-| `maxLength` | `number` | `8` | Maximum length of generated names (range: `3 - 12`) |
-| `pronounceable` | `boolean` | `true` | When true, rejects unapproved consonant clusters |
+| `minLength` | `number` | *per-style* | Minimum length of generated names (range: `3 - 12`) |
+| `maxLength` | `number` | *per-style* | Maximum length of generated names (range: `3 - 12`) |
+| `pronounceable` | `boolean` | *per-style* (`true`) | When true, rejects unapproved consonant clusters |
 | `preferredLetters`| `string` | `""` | Letters to favor. Missing these inflicts a `-2` penalty |
 | `forbiddenLetters`| `string` | `""` | Reject names containing any of these characters |
 | `prefix` | `string` | `""` | Static prefix prepended to names (max 4 chars) |
 | `suffix` | `string` | `""` | Static suffix appended to names (max 4 chars) |
 | `seed` | `number` | *random* | Seed value for deterministic output sequence |
+
+When `minLength`, `maxLength` or `pronounceable` are omitted, the selected
+style's own defaults apply (e.g. `wildstyle` → 6–10, `minimal` → 3–5); see
+[styles.md](./styles.md). Numeric options must be integers.
 
 ---
 
@@ -101,9 +105,9 @@ Usage: graffiti-names generate [options]
 Options:
   --style <id>              old-school | modern | wildstyle | tech | minimal | hardcore
   --count <n>               Number of names (default: 10)
-  --min-length <n>          Minimum length (default: 4)
-  --max-length <n>          Maximum length (default: 8)
-  --pronounceable           Require pronounceable clusters (default: true)
+  --min-length <n>          Minimum length (default: per-style)
+  --max-length <n>          Maximum length (default: per-style)
+  --pronounceable           Require pronounceable clusters (default: per-style)
   --no-pronounceable        Allow harsh consonant stacks
   --preferred-letters <s>   Soft letter preference, e.g. KZ
   --forbidden-letters <s>   Hard reject letters, e.g. QW
@@ -120,11 +124,11 @@ Options:
 npm run generate -- --style old-school --count 5 --seed 42
 ```
 ```text
-TREREX  (score: 10, pattern: CCVC)
-TROM  (score: 3, pattern: CCVCC)
-SKAK  (score: 7, pattern: CCVC)
+TRERAK  (score: 5, pattern: CCVC)
+KOEX  (score: 9, pattern: CVC)
+TRORK  (score: 5, pattern: CCVCC)
+SKAZ  (score: 9, pattern: CCVC)
 DRAK  (score: 2, pattern: CCVC)
-KRIZE  (score: 14, pattern: CCVCC)
 ```
 
 #### JSON Format
@@ -134,18 +138,18 @@ npm run generate -- --style old-school --count 5 --seed 42 --format json
 ```json
 {
   "names": [
-    { "name": "TREREX", "score": 10, "pattern": "CCVC" },
-    { "name": "TROM", "score": 3, "pattern": "CCVCC" },
-    { "name": "SKAK", "score": 7, "pattern": "CCVC" },
-    { "name": "DRAK", "score": 2, "pattern": "CCVC" },
-    { "name": "KRIZE", "score": 14, "pattern": "CCVCC" }
+    { "name": "TRERAK", "score": 5, "pattern": "CCVC" },
+    { "name": "KOEX", "score": 9, "pattern": "CVC" },
+    { "name": "TRORK", "score": 5, "pattern": "CCVCC" },
+    { "name": "SKAZ", "score": 9, "pattern": "CCVC" },
+    { "name": "DRAK", "score": 2, "pattern": "CCVC" }
   ],
   "meta": {
     "style": "old-school",
     "seed": 42,
     "requested": 5,
-    "attempts": 6,
-    "rejected": 1,
+    "attempts": 5,
+    "rejected": 0,
     "exhausted": false
   }
 }
@@ -176,7 +180,21 @@ npm run build
 ```
 
 ### Test
-Runs the test suite using Node's native test runner (vitest is not required):
+Runs the test suite using Node's native test runner (vitest is not required).
+Tests compile to `dist-test/` (git-ignored) so the published `dist/` stays
+clean:
 ```bash
 npm test
 ```
+
+### Lint & format
+ESLint (type-checked) and Prettier keep the sources consistent:
+```bash
+npm run lint          # eslint .
+npm run format        # prettier --write .
+npm run format:check  # prettier --check . (used in CI)
+```
+
+### Continuous integration
+`.github/workflows/ci.yml` runs lint, format check, build and tests on
+Node 20 and 22 for every push to `main` and every pull request.

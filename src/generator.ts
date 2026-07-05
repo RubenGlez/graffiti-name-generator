@@ -11,22 +11,29 @@ import {
 } from "./types.js";
 
 export function generate(options: GenerateOptions): GenerateResult {
-  const normalized = normalizeOptions(options);
   const data = loadData();
+  const styleDefaults = data.styles.get(options.style)?.defaults;
+  const normalized = normalizeOptions(options, styleDefaults);
   const style = getStyle(normalized.style);
 
   if (normalized.prefix && !validateAffix(normalized.prefix, data)) {
-    throw new InvalidOptionsError("prefix fails dictionary or blocklist validation");
+    throw new InvalidOptionsError(
+      "prefix fails dictionary or blocklist validation",
+    );
   }
 
   if (normalized.suffix && !validateAffix(normalized.suffix, data)) {
-    throw new InvalidOptionsError("suffix fails dictionary or blocklist validation");
+    throw new InvalidOptionsError(
+      "suffix fails dictionary or blocklist validation",
+    );
   }
 
   if (normalized.forbiddenLetters) {
     for (const letter of normalized.prefix + normalized.suffix) {
       if (normalized.forbiddenLetters.includes(letter)) {
-        throw new InvalidOptionsError("prefix or suffix contains forbidden letter");
+        throw new InvalidOptionsError(
+          "prefix or suffix contains forbidden letter",
+        );
       }
     }
   }
@@ -41,13 +48,16 @@ export function generate(options: GenerateOptions): GenerateResult {
   while (names.length < normalized.count && attempts < maxAttempts) {
     attempts += 1;
 
-    const { core, pattern } = assembleCandidate(normalized.style, rng);
+    const { core, pattern, startBlock, endBlock } = assembleCandidate(
+      normalized.style,
+      rng,
+    );
     const fullName = `${normalized.prefix}${core}${normalized.suffix}`;
 
     const result = checkCandidate(
       fullName,
-      core,
-      pattern,
+      startBlock,
+      endBlock,
       normalized,
       style,
       data,

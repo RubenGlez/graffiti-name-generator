@@ -5,18 +5,27 @@
   },
   "CVC": {
     "slots": ["start", "nucleus", "ending"],
-    "startLength": 1
+    "startLength": 1,
+    "endingShape": "C"
+  },
+  "CVCC": {
+    "slots": ["start", "nucleus", "ending"],
+    "startLength": 1,
+    "endingShape": "CC"
   },
   "CCVC": {
     "slots": ["start", "nucleus", "ending"],
-    "startLength": 2
+    "startLength": 2,
+    "endingShape": "C"
   },
   "CCVCC": {
     "slots": ["start", "nucleus", "ending"],
-    "startLength": 2
+    "startLength": 2,
+    "endingShape": "CC"
   },
   "CCVCVC": {
     "slots": ["start", "nucleus", "bridge", "nucleus2", "ending2"],
-    "startLength": 2
+    "startLength": 2,
+    "endingShape": "C"
   }
 }

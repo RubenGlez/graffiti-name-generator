@@ -1,6 +1,10 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { scoreName, applyPreferredPenalty, getThreshold } from "../src/scorer.js";
+import {
+  scoreName,
+  applyPreferredPenalty,
+  getThreshold,
+} from "../src/scorer.js";
 
 describe("scoreName", () => {
   it("scores KRAZE at +10", () => {

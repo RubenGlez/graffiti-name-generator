@@ -3,7 +3,11 @@ import assert from "node:assert/strict";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { setDataDir } from "../src/loader.js";
-import { checkCandidate, validateAffix } from "../src/filters.js";
+import {
+  checkCandidate,
+  hasValidClusters,
+  validateAffix,
+} from "../src/filters.js";
 import { loadData, getStyle } from "../src/loader.js";
 import type { NormalizedOptions } from "../src/types.js";
 
@@ -35,8 +39,8 @@ describe("filters", () => {
 
     const result = checkCandidate(
       "DESK",
-      "DESK",
-      "CVC",
+      "D",
+      "SK",
       baseOptions,
       style,
       data,
@@ -54,8 +58,8 @@ describe("filters", () => {
 
     const result = checkCandidate(
       "KRAZE",
-      "KRAZE",
-      "CCVC",
+      "KR",
+      "ZE",
       { ...baseOptions, forbiddenLetters: "Z" },
       style,
       data,
@@ -73,8 +77,8 @@ describe("filters", () => {
 
     const result = checkCandidate(
       "KRAZE",
-      "KRAZE",
-      "CCVC",
+      "KR",
+      "ZE",
       baseOptions,
       style,
       data,
@@ -92,8 +96,8 @@ describe("filters", () => {
 
     const result = checkCandidate(
       "KRAZE",
-      "KRAZE",
-      "CCVC",
+      "KR",
+      "ZE",
       baseOptions,
       style,
       data,
@@ -108,5 +112,54 @@ describe("filters", () => {
     const data = loadData();
     assert.equal(validateAffix("THE", data), false);
     assert.equal(validateAffix("MC", data), true);
+  });
+});
+
+describe("hasValidClusters affix boundaries", () => {
+  let clusters: Set<string>;
+
+  before(() => {
+    setDataDir(dataDir);
+    clusters = loadData().clusters;
+  });
+
+  it("accepts a clean word (no affix)", () => {
+    // KRAZE = KR-A-ZE; only run is KR (approved cluster / onset)
+    assert.equal(
+      hasValidClusters("KRAZE", "KR", "ZE", true, true, clusters),
+      true,
+    );
+  });
+
+  it("rejects a consonant-ending prefix that forms an unapproved junction", () => {
+    // prefix "N" (dirty onset) + KRURK -> run NKR, not a cluster
+    assert.equal(
+      hasValidClusters("NKRURK", "KR", "RK", false, true, clusters),
+      false,
+    );
+  });
+
+  it("keeps a vowel-ending prefix clean (onset preserved)", () => {
+    // prefix "LA" ends in a vowel -> KR is a clean onset cluster
+    assert.equal(
+      hasValidClusters("LAKRURK", "KR", "RK", true, true, clusters),
+      true,
+    );
+  });
+
+  it("rejects a consonant-starting suffix that forms an unapproved coda", () => {
+    // core ...RK + suffix "S" -> run RKS, not a cluster, dirty coda
+    assert.equal(
+      hasValidClusters("STARKS", "ST", "RK", true, false, clusters),
+      false,
+    );
+  });
+
+  it("accepts a vowel-starting suffix (coda preserved)", () => {
+    // suffix "ER" starts with a vowel -> RK stays a clean coda cluster
+    assert.equal(
+      hasValidClusters("STARKER", "ST", "RK", true, true, clusters),
+      true,
+    );
   });
 });

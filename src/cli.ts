@@ -1,46 +1,17 @@
 #!/usr/bin/env node
+import { parseArgs } from "node:util";
 import { generate } from "./generator.js";
 import { isStyleId } from "./options.js";
 import { InvalidOptionsError, STYLE_IDS } from "./types.js";
 
-function parseArgs(argv: string[]): Record<string, string | boolean> {
-  const parsed: Record<string, string | boolean> = {};
-
-  for (let i = 0; i < argv.length; i += 1) {
-    const arg = argv[i];
-    if (!arg?.startsWith("--")) {
-      continue;
-    }
-
-    const key = arg.slice(2);
-    const next = argv[i + 1];
-
-    if (key === "pronounceable") {
-      parsed[key] = true;
-      continue;
-    }
-
-    if (next && !next.startsWith("--")) {
-      parsed[key] = next;
-      i += 1;
-      continue;
-    }
-
-    parsed[key] = true;
-  }
-
-  return parsed;
-}
-
-function printHelp(): void {
-  console.log(`Usage: graffiti-names generate [options]
+const HELP = `Usage: graffiti-names generate [options]
 
 Options:
   --style <id>              ${STYLE_IDS.join(" | ")}
   --count <n>               Number of names (default: 10)
-  --min-length <n>          Minimum length (default: 4)
-  --max-length <n>          Maximum length (default: 8)
-  --pronounceable           Require pronounceable clusters (default: true)
+  --min-length <n>          Minimum length (default: per-style)
+  --max-length <n>          Maximum length (default: per-style)
+  --pronounceable           Require pronounceable clusters (default: per-style)
   --no-pronounceable        Allow harsh consonant stacks
   --preferred-letters <s>   Soft letter preference, e.g. KZ
   --forbidden-letters <s>   Hard reject letters, e.g. QW
@@ -48,45 +19,95 @@ Options:
   --suffix <s>              Suffix up to 4 chars
   --seed <n>                RNG seed for reproducible output
   --format <human|json>     Output format (default: human)
-`);
+  -h, --help                Show this help
+`;
+
+const OPTIONS = {
+  style: { type: "string" },
+  count: { type: "string" },
+  "min-length": { type: "string" },
+  "max-length": { type: "string" },
+  "preferred-letters": { type: "string" },
+  "forbidden-letters": { type: "string" },
+  prefix: { type: "string" },
+  suffix: { type: "string" },
+  seed: { type: "string" },
+  format: { type: "string" },
+  pronounceable: { type: "boolean" },
+  "no-pronounceable": { type: "boolean" },
+  help: { type: "boolean", short: "h" },
+} as const;
+
+function printHelp(): void {
+  console.log(HELP);
 }
 
-function runGenerate(args: Record<string, string | boolean>): void {
-  const styleValue = String(args.style ?? "");
+function toNumber(value: string | undefined): number | undefined {
+  return value === undefined ? undefined : Number(value);
+}
+
+function runGenerate(args: string[]): void {
+  const { values } = parseArgs({
+    args,
+    allowPositionals: false,
+    strict: true,
+    options: OPTIONS,
+  });
+
+  if (values.help) {
+    printHelp();
+    return;
+  }
+
+  const styleValue = values.style ?? "";
   if (!isStyleId(styleValue)) {
     throw new InvalidOptionsError(
       `Missing or invalid --style. Choose: ${STYLE_IDS.join(", ")}`,
     );
   }
 
-  const pronounceable =
-    args["no-pronounceable"] === true ? false : args.pronounceable !== false;
+  if (values.pronounceable && values["no-pronounceable"]) {
+    throw new InvalidOptionsError(
+      "--pronounceable and --no-pronounceable are mutually exclusive",
+    );
+  }
+
+  let pronounceable: boolean | undefined;
+  if (values["no-pronounceable"]) {
+    pronounceable = false;
+  } else if (values.pronounceable) {
+    pronounceable = true;
+  } else {
+    pronounceable = undefined;
+  }
+
+  const format = values.format ?? "human";
+  if (format !== "human" && format !== "json") {
+    throw new InvalidOptionsError('--format must be "human" or "json"');
+  }
 
   const result = generate({
     style: styleValue,
-    count: args.count ? Number(args.count) : undefined,
-    minLength: args["min-length"] ? Number(args["min-length"]) : undefined,
-    maxLength: args["max-length"] ? Number(args["max-length"]) : undefined,
+    count: toNumber(values.count),
+    minLength: toNumber(values["min-length"]),
+    maxLength: toNumber(values["max-length"]),
     pronounceable,
-    preferredLetters: args["preferred-letters"]
-      ? String(args["preferred-letters"])
-      : undefined,
-    forbiddenLetters: args["forbidden-letters"]
-      ? String(args["forbidden-letters"])
-      : undefined,
-    prefix: args.prefix ? String(args.prefix) : undefined,
-    suffix: args.suffix ? String(args.suffix) : undefined,
-    seed: args.seed ? Number(args.seed) : undefined,
+    preferredLetters: values["preferred-letters"],
+    forbiddenLetters: values["forbidden-letters"],
+    prefix: values.prefix,
+    suffix: values.suffix,
+    seed: toNumber(values.seed),
   });
 
-  const format = String(args.format ?? "human");
   if (format === "json") {
     console.log(JSON.stringify(result, null, 2));
     return;
   }
 
   for (const entry of result.names) {
-    console.log(`${entry.name}  (score: ${entry.score}, pattern: ${entry.pattern})`);
+    console.log(
+      `${entry.name}  (score: ${entry.score}, pattern: ${entry.pattern})`,
+    );
   }
 
   if (result.meta.exhausted) {
@@ -111,7 +132,7 @@ function main(): void {
   }
 
   try {
-    runGenerate(parseArgs(rest));
+    runGenerate(rest);
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     console.error(`Error: ${message}`);

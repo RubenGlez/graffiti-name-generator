@@ -1,16 +1,15 @@
 # Offensive substring blocklist (MVP subset)
-ass
+# Scope: slurs, strong profanity and insults. Mild edgy non-insult words
+# (hell, damn, crap, bloody, bugger) are intentionally NOT listed, and the very
+# short 'ass' was dropped to avoid rejecting innocent names (BRASS, CLASS).
+# See filters-and-wordlists.md for the substring-matching trade-off.
 asshole
 bastard
 bitch
-bloody
 bollocks
-bugger
 bullshit
 cock
-crap
 cunt
-damn
 dick
 douche
 fag
@@ -18,7 +17,6 @@ faggot
 fuck
 fucker
 fucking
-hell
 jackass
 jerk
 moron

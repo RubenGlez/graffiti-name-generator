@@ -1,0 +1,7 @@
+dist/
+dist-test/
+node_modules/
+package-lock.json
+data/
+# Markdown docs are hand-formatted prose; keep Prettier out of them.
+**/*.md

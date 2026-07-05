@@ -1,10 +1,5 @@
 export type StyleId =
-  | "old-school"
-  | "modern"
-  | "wildstyle"
-  | "tech"
-  | "minimal"
-  | "hardcore";
+  "old-school" | "modern" | "wildstyle" | "tech" | "minimal" | "hardcore";
 
 export const STYLE_IDS: readonly StyleId[] = [
   "old-school",
@@ -84,9 +79,17 @@ export interface StyleConfig {
   scoring?: StyleScoring;
 }
 
+export type EndingShape = "CC" | "C";
+
 export interface PatternConfig {
   slots: string[];
   startLength: number;
+  /**
+   * Constrains which endings the ending/ending2 slots may draw:
+   * "CC" = a pure two-consonant coda (e.g. RK, SK); "C" = a single-consonant
+   * or syllabic coda (everything else). Omitted = no constraint.
+   */
+  endingShape?: EndingShape;
 }
 
 export interface BlocksConfig {
@@ -108,6 +111,10 @@ export interface LoadedData {
 export interface AssembledCandidate {
   core: string;
   pattern: string;
+  /** The start block actually chosen (e.g. "KR"). */
+  startBlock: string;
+  /** The ending block actually chosen, or "" for patterns without an ending. */
+  endBlock: string;
 }
 
 export class InvalidOptionsError extends Error {

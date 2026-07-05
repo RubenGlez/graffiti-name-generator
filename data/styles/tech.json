@@ -9,6 +9,7 @@
   "patterns": {
     "CV": 10,
     "CVC": 35,
+    "CVCC": 15,
     "CCVC": 40,
     "CCVCC": 12,
     "CCVCVC": 3

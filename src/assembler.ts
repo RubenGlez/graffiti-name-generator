@@ -1,9 +1,8 @@
-import { pickWeighted, createRng } from "./rng.js";
+import { pickWeighted } from "./rng.js";
 import { loadData, getStyle } from "./loader.js";
 import type {
   AssembledCandidate,
   BlocksConfig,
-  NormalizedOptions,
   PatternConfig,
   StyleConfig,
   StyleId,
@@ -22,6 +21,23 @@ const SLOT_TO_POOL: Record<string, BlockPool> = {
 
 function filterStartsByLength(starts: string[], length: number): string[] {
   return starts.filter((s) => s.length === length);
+}
+
+/** A pure two-consonant coda such as RK or SK (no vowel). */
+function isConsonantCluster(block: string): boolean {
+  return block.length === 2 && !/[AEIOU]/.test(block);
+}
+
+function endingsForShape(
+  endings: string[],
+  shape: PatternConfig["endingShape"],
+): string[] | undefined {
+  if (!shape) {
+    return undefined;
+  }
+  return shape === "CC"
+    ? endings.filter(isConsonantCluster)
+    : endings.filter((e) => !isConsonantCluster(e));
 }
 
 function pickBlock(
@@ -52,10 +68,10 @@ export function assembleCandidate(
   }
 
   const parts: string[] = [];
-  const validStarts = filterStartsByLength(
-    blocks.starts,
-    pattern.startLength,
-  );
+  const validStarts = filterStartsByLength(blocks.starts, pattern.startLength);
+
+  let startBlock = "";
+  let endBlock = "";
 
   for (const slot of pattern.slots) {
     const pool = SLOT_TO_POOL[slot];
@@ -63,18 +79,28 @@ export function assembleCandidate(
       throw new Error(`Unknown slot: ${slot}`);
     }
 
+    let block: string;
     if (slot === "start") {
-      parts.push(pickBlock(style, pool, rng, validStarts));
-      continue;
+      block = pickBlock(style, pool, rng, validStarts);
+      startBlock = block;
+    } else if (slot === "ending" || slot === "ending2") {
+      const allowedEndings = endingsForShape(
+        blocks.endings,
+        pattern.endingShape,
+      );
+      block = pickBlock(style, pool, rng, allowedEndings);
+      endBlock = block;
+    } else {
+      block = pickBlock(style, pool, rng);
     }
 
-    parts.push(pickBlock(style, pool, rng));
+    parts.push(block);
   }
 
   return {
     core: parts.join("").toUpperCase(),
     pattern: patternId,
+    startBlock: startBlock.toUpperCase(),
+    endBlock: endBlock.toUpperCase(),
   };
 }
-
-export { createRng };
