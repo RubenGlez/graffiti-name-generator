@@ -8,6 +8,11 @@
     "startLength": 1,
     "endingShape": "C"
   },
+  "CVCC": {
+    "slots": ["start", "nucleus", "ending"],
+    "startLength": 1,
+    "endingShape": "CC"
+  },
   "CCVC": {
     "slots": ["start", "nucleus", "ending"],
     "startLength": 2,
