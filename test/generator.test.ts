@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { generate } from "../src/generator.js";
-import { setDataDir } from "../src/loader.js";
+import { setDataDir, loadData } from "../src/loader.js";
 import { normalizeOptions } from "../src/options.js";
 import { InvalidOptionsError } from "../src/types.js";
 
@@ -150,5 +150,79 @@ describe("generator", () => {
         }),
       InvalidOptionsError,
     );
+  });
+
+  it("reports exhaustion honestly when the space is too small", () => {
+    const result = generate({
+      style: "minimal",
+      count: 100,
+      minLength: 3,
+      maxLength: 3,
+      forbiddenLetters: "BCDFGHJLMNPQSTVWXZ",
+      seed: 5,
+    });
+    assert.equal(result.meta.exhausted, true);
+    assert.ok(result.names.length < result.meta.requested);
+    assert.equal(
+      result.names.length,
+      new Set(result.names.map((n) => n.name)).size,
+    );
+  });
+
+  it("treats seed 0 as an explicit deterministic seed", () => {
+    const a = generate({ style: "modern", count: 5, seed: 0 });
+    const b = generate({ style: "modern", count: 5, seed: 0 });
+    assert.equal(a.meta.seed, 0);
+    assert.deepEqual(
+      a.names.map((n) => n.name),
+      b.names.map((n) => n.name),
+    );
+  });
+
+  it("throws when the prefix contains a forbidden letter", () => {
+    assert.throws(
+      () =>
+        generate({
+          style: "modern",
+          prefix: "KX",
+          forbiddenLetters: "X",
+          seed: 1,
+        }),
+      InvalidOptionsError,
+    );
+  });
+
+  it("throws when an affix is a dictionary word or blocklisted term", () => {
+    assert.throws(
+      () => generate({ style: "modern", prefix: "THE", seed: 1 }),
+      InvalidOptionsError,
+    );
+    assert.throws(
+      () => generate({ style: "modern", suffix: "ASS", seed: 1 }),
+      InvalidOptionsError,
+    );
+  });
+
+  it("never emits a name containing a blocklisted term", () => {
+    const blocklist = loadData().blocklist;
+    for (let seed = 1; seed <= 30; seed += 1) {
+      for (const style of [
+        "old-school",
+        "wildstyle",
+        "hardcore",
+        "tech",
+      ] as const) {
+        const result = generate({ style, count: 20, seed });
+        for (const { name } of result.names) {
+          const lower = name.toLowerCase();
+          for (const term of blocklist) {
+            assert.ok(
+              !lower.includes(term.toLowerCase()),
+              `${name} contains blocklisted "${term}"`,
+            );
+          }
+        }
+      }
+    }
   });
 });
