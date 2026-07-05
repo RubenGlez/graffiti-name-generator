@@ -1,6 +1,6 @@
 # 07 — Off-by-one en la validación de longitud de affixes
 
-**Tipo:** Gap · **Prioridad:** Baja · **Estado:** Pendiente
+**Tipo:** Gap · **Prioridad:** Baja · **Estado:** Hecho
 
 ## Problema
 
@@ -39,6 +39,7 @@ suficiente para eliminar el caso siempre-imposible sin falsos positivos.
 
 ## Criterios de aceptación
 
-- [ ] `normalizeOptions({ style: "modern", maxLength: 5, prefix: "AB", suffix: "CD" })` lanza `InvalidOptionsError`.
-- [ ] `affixLen === maxLength - 2` sigue siendo válido (p. ej. `maxLength: 6`, prefix "AB", suffix "CD").
-- [ ] Tests existentes sin regresiones.
+- [x] `normalizeOptions({ style: "modern", maxLength: 5, prefix: "AB", suffix: "CD" })` lanza `InvalidOptionsError`.
+- [x] `affixLen === maxLength - 2` sigue siendo válido (no lanza; el que genere 0 con AB/CD es por letras impronunciables, no por el off-by-one).
+- [x] `api.md` documenta la regla (≥ 2 chars para el core).
+- [x] Tests existentes sin regresiones (40 tests).

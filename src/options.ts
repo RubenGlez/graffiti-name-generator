@@ -10,6 +10,9 @@ const MIN_LEN = 3;
 const MAX_LEN = 12;
 const MAX_COUNT = 100;
 const MAX_AFFIX = 4;
+// Shortest core the assembler can produce is a CV pattern (1-char start + 1-char
+// nucleus), so prefix + suffix must leave room for at least this many chars.
+const MIN_CORE = 2;
 
 function normalizeUpper(value: string | undefined): string {
   return (value ?? "").toUpperCase().replace(/[^A-Z]/g, "");
@@ -80,8 +83,10 @@ export function normalizeOptions(
   }
 
   const affixLen = prefix.length + suffix.length;
-  if (affixLen >= maxLength) {
-    throw new InvalidOptionsError("prefix + suffix leave no room for generated core");
+  if (affixLen > maxLength - MIN_CORE) {
+    throw new InvalidOptionsError(
+      `prefix + suffix leave no room for generated core (need at least ${MIN_CORE} characters)`,
+    );
   }
 
   let seed: number;
