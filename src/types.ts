@@ -108,6 +108,10 @@ export interface LoadedData {
 export interface AssembledCandidate {
   core: string;
   pattern: string;
+  /** The start block actually chosen (e.g. "KR"). */
+  startBlock: string;
+  /** The ending block actually chosen, or "" for patterns without an ending. */
+  endBlock: string;
 }
 
 export class InvalidOptionsError extends Error {

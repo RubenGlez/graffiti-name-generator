@@ -41,13 +41,17 @@ export function generate(options: GenerateOptions): GenerateResult {
   while (names.length < normalized.count && attempts < maxAttempts) {
     attempts += 1;
 
-    const { core, pattern } = assembleCandidate(normalized.style, rng);
+    const { core, pattern, startBlock, endBlock } = assembleCandidate(
+      normalized.style,
+      rng,
+    );
     const fullName = `${normalized.prefix}${core}${normalized.suffix}`;
 
     const result = checkCandidate(
       fullName,
       core,
-      pattern,
+      startBlock,
+      endBlock,
       normalized,
       style,
       data,

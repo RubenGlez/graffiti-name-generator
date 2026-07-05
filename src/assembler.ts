@@ -57,23 +57,35 @@ export function assembleCandidate(
     pattern.startLength,
   );
 
+  let startBlock = "";
+  let endBlock = "";
+
   for (const slot of pattern.slots) {
     const pool = SLOT_TO_POOL[slot];
     if (!pool) {
       throw new Error(`Unknown slot: ${slot}`);
     }
 
+    let block: string;
     if (slot === "start") {
-      parts.push(pickBlock(style, pool, rng, validStarts));
-      continue;
+      block = pickBlock(style, pool, rng, validStarts);
+      startBlock = block;
+    } else {
+      block = pickBlock(style, pool, rng);
     }
 
-    parts.push(pickBlock(style, pool, rng));
+    if (slot === "ending" || slot === "ending2") {
+      endBlock = block;
+    }
+
+    parts.push(block);
   }
 
   return {
     core: parts.join("").toUpperCase(),
     pattern: patternId,
+    startBlock: startBlock.toUpperCase(),
+    endBlock: endBlock.toUpperCase(),
   };
 }
 

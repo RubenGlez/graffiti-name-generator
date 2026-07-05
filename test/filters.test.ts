@@ -36,7 +36,8 @@ describe("filters", () => {
     const result = checkCandidate(
       "DESK",
       "DESK",
-      "CVC",
+      "D",
+      "SK",
       baseOptions,
       style,
       data,
@@ -55,7 +56,8 @@ describe("filters", () => {
     const result = checkCandidate(
       "KRAZE",
       "KRAZE",
-      "CCVC",
+      "KR",
+      "ZE",
       { ...baseOptions, forbiddenLetters: "Z" },
       style,
       data,
@@ -74,7 +76,8 @@ describe("filters", () => {
     const result = checkCandidate(
       "KRAZE",
       "KRAZE",
-      "CCVC",
+      "KR",
+      "ZE",
       baseOptions,
       style,
       data,
@@ -93,7 +96,8 @@ describe("filters", () => {
     const result = checkCandidate(
       "KRAZE",
       "KRAZE",
-      "CCVC",
+      "KR",
+      "ZE",
       baseOptions,
       style,
       data,
