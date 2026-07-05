@@ -1,6 +1,6 @@
 # 10 — CLI: migrar a `util.parseArgs` con modo estricto
 
-**Tipo:** Mejora · **Prioridad:** Baja · **Estado:** Pendiente · **Depende de:** 02, 04
+**Tipo:** Mejora · **Prioridad:** Baja · **Estado:** Hecho · **Depende de:** 02, 04
 
 ## Problema
 
@@ -45,8 +45,12 @@ Node ≥ 20 (ya requerido en `engines`) incluye `util.parseArgs` nativo con
 
 ## Criterios de aceptación
 
-- [ ] `graffiti-names generate --lenght 6 --style modern` → exit 1 con mensaje de opción desconocida.
-- [ ] `graffiti-names generate --style modern --format xml` → exit 1.
-- [ ] `graffiti-names generate --help` muestra la ayuda con exit 0.
-- [ ] `--pronounceable` y `--no-pronounceable` juntas → exit 1.
-- [ ] Todos los ejemplos del README y de `api.md` siguen funcionando tal cual.
+- [x] `graffiti-names generate --lenght 6 --style modern` → exit 1 (`Unknown option '--lenght'`).
+- [x] `graffiti-names generate --style modern --format xml` → exit 1.
+- [x] `graffiti-names generate --help` muestra la ayuda con exit 0.
+- [x] `--pronounceable` y `--no-pronounceable` juntas → exit 1.
+- [x] Todos los ejemplos del README y de `api.md` siguen funcionando tal cual (golden intacto).
+
+Nota: se usó `allowPositionals: false` (el subcomando `generate` ya se
+consume en `main` antes de `parseArgs`), así que cualquier positional suelto
+también produce error en modo estricto.

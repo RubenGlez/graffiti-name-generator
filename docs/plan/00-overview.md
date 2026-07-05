@@ -30,7 +30,7 @@ re-litigarse al implementar:
 | 06 | [Patrón CCVCC idéntico a CCVC](./06-patron-ccvcc.md) | Gap | Media | Hecho | 09 |
 | 07 | [Off-by-one en validación de affix](./07-affix-off-by-one.md) | Gap | Baja | Hecho | — |
 | 08 | [Infraestructura: CI, LICENSE, linter](./08-infraestructura.md) | Mejora | Media | Hecho | 01 |
-| 10 | [CLI con util.parseArgs](./10-cli-parseargs.md) | Mejora | Baja | Pendiente | 02 |
+| 10 | [CLI con util.parseArgs](./10-cli-parseargs.md) | Mejora | Baja | Hecho | 02 |
 | 11 | [Robustez del loader](./11-loader-robustez.md) | Mejora | Baja | Pendiente | — |
 | 12 | [Cobertura de tests](./12-cobertura-tests.md) | Mejora | Media | Pendiente | 01–07 |
 | 13 | [Limpiezas menores y docs](./13-limpiezas-menores.md) | Mejora | Baja | Pendiente | — |
