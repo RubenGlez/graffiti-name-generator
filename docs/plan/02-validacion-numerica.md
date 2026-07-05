@@ -1,6 +1,6 @@
 # 02 — Validación numérica: NaN y no-enteros se saltan los límites
 
-**Tipo:** Bug · **Prioridad:** Alta · **Estado:** Pendiente
+**Tipo:** Bug · **Prioridad:** Alta · **Estado:** Hecho
 
 ## Problema
 
@@ -58,8 +58,8 @@ Validar en el core (fuente de verdad), no solo en el CLI:
 
 ## Criterios de aceptación
 
-- [ ] `normalizeOptions({ style: "modern", minLength: NaN })` lanza `InvalidOptionsError`.
-- [ ] Ídem para `maxLength: NaN`, `count: NaN`, `seed: NaN`, y para valores no enteros (`minLength: 4.5`).
-- [ ] `graffiti-names generate --style modern --count abc` termina con exit 1 y mensaje `Error: ...`.
-- [ ] `graffiti-names generate --style modern --min-length abc` termina con exit 1 (ya no genera nombres de 2 letras).
-- [ ] Tests nuevos cubriendo los casos anteriores; los 19 tests existentes siguen pasando.
+- [x] `normalizeOptions({ style: "modern", minLength: NaN })` lanza `InvalidOptionsError`.
+- [x] Ídem para `maxLength: NaN`, `count: NaN`, `seed: NaN`, y para valores no enteros (`minLength: 4.5`).
+- [x] `graffiti-names generate --style modern --count abc` termina con exit 1 y mensaje `Error: ...`.
+- [x] `graffiti-names generate --style modern --min-length abc` termina con exit 1 (ya no genera nombres de 2 letras).
+- [x] Tests nuevos cubriendo los casos anteriores; los 19 tests existentes siguen pasando.

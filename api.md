@@ -70,6 +70,8 @@ interface GenerateResult {
 | maxLength | 8 | 3 | 12 |
 | count | 10 | 1 | 100 |
 
+- `minLength`, `maxLength`, `count` and `seed` must be **integers**; a
+  non-integer or `NaN` throws `InvalidOptionsError`
 - `minLength` must be ≤ `maxLength` or throw `InvalidOptionsError`
 - `prefix` + core + `suffix` must fit within min/max length together
 - All string inputs normalized to uppercase before generation
