@@ -42,12 +42,65 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎨</text></svg>"
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
-      rel="stylesheet"
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="fonts/archivo-latin.woff2"
+      crossorigin
     />
+    <style>
+      /*
+        Self-hosted so the page opens no third-party connections: fetching the
+        stylesheet from Google meant a DNS lookup and TLS handshake with two
+        more hosts before a single letter could be drawn. Declaring the faces
+        here also means they exist from the first byte of CSS, so nothing can
+        race ahead of them. Files and licences live in web/fonts (all OFL).
+      */
+      @font-face {
+        font-family: "Archivo";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/archivo-latin.woff2") format("woff2");
+      }
+      /* Three declarations over one file, matching how Google served it. */
+      @font-face {
+        font-family: "Archivo";
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url("fonts/archivo-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Archivo";
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url("fonts/archivo-latin.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Space Mono";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/space-mono-latin-400.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Space Mono";
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url("fonts/space-mono-latin-700.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Sedgwick Ave Display";
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url("fonts/sedgwick-ave-display-latin-400.woff2") format("woff2");
+      }
+    </style>
     <style>
       :root {
         --rail-bg: #131316;

@@ -1,6 +1,7 @@
 import { build } from "esbuild";
 import {
   copyFileSync,
+  cpSync,
   mkdirSync,
   readFileSync,
   rmSync,
@@ -53,5 +54,8 @@ writeFileSync(join(outDir, "index.html"), html.replace("app.js", bundle));
 for (const file of ["404.html", "robots.txt", "sitemap.xml", "og.jpg"]) {
   copyFileSync(join(webDir, file), join(outDir, file));
 }
+
+// Self-hosted faces, shipped with the licence files the OFL requires.
+cpSync(join(webDir, "fonts"), join(outDir, "fonts"), { recursive: true });
 
 console.log(`Built web/dist (${bundle})`);
