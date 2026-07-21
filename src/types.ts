@@ -99,6 +99,22 @@ export interface BlocksConfig {
   bridges: string[];
 }
 
+/**
+ * Raw data as it exists on disk, before parsing into lookup structures. A data
+ * source hands this to the loader; where the bytes come from (filesystem in
+ * Node, bundled imports in the browser) is the source's concern.
+ */
+export interface DataFiles {
+  blocks: BlocksConfig;
+  patterns: Record<string, PatternConfig>;
+  clusters: string[];
+  /** Raw `dictionary-en.txt` contents. */
+  dictionary: string;
+  /** Raw `blocklist.txt` contents. */
+  blocklist: string;
+  styles: Record<StyleId, StyleConfig>;
+}
+
 export interface LoadedData {
   blocks: BlocksConfig;
   patterns: Record<string, PatternConfig>;

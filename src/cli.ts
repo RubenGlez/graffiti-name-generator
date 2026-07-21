@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { parseArgs } from "node:util";
-import { generate } from "./generator.js";
+import { generate } from "./index.js";
 import { isStyleId } from "./options.js";
 import { InvalidOptionsError, STYLE_IDS } from "./types.js";
 

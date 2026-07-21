@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Graffiti Name Generator</title>
+    <meta
+      name="description"
+      content="Procedural graffiti artist name generator. Deterministic, no AI, runs entirely in your browser."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tags.rubenglez.dev/" />
+    <meta property="og:title" content="Graffiti Name Generator" />
+    <meta
+      property="og:description"
+      content="Procedural graffiti artist name generator. Deterministic, no AI, runs entirely in your browser."
+    />
+    <meta property="og:image" content="https://tags.rubenglez.dev/og.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎨</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rail-bg: #131316;
+        --rail-border: #26262b;
+        --field-bg: #1c1c20;
+        --field-border: #2d2d34;
+        --text: #f0efe9;
+        --muted: #8a8a92;
+        --spray: #e2452e;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        display: flex;
+        min-height: 100vh;
+        font-family: "Archivo", system-ui, sans-serif;
+        background: #131316;
+        color: var(--text);
+      }
+
+      /* ---------- control rail ---------- */
+
+      #rail {
+        width: 300px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 28px 24px 20px;
+        border-right: 1px solid var(--rail-border);
+      }
+
+      #rail .eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--spray);
+        transition: color 0.3s;
+      }
+
+      #rail h1 {
+        margin: 6px 0 28px;
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        line-height: 1.25;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
+
+      input,
+      select {
+        font-family: "Archivo", system-ui, sans-serif;
+        font-size: 14px;
+        color: var(--text);
+        background: var(--field-bg);
+        border: 1px solid var(--field-border);
+        border-radius: 6px;
+        padding: 8px 10px;
+        width: 100%;
+      }
+
+      input::placeholder {
+        color: #55555e;
+      }
+
+      input:focus-visible,
+      select:focus-visible,
+      button:focus-visible,
+      .chip:focus-visible {
+        outline: 2px solid var(--spray);
+        outline-offset: 1px;
+      }
+
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+      }
+
+      select {
+        appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M1 1l4 4 4-4' stroke='%238a8a92' fill='none' stroke-width='1.5'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        cursor: pointer;
+      }
+
+      .checkbox {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+      }
+
+      .checkbox input {
+        width: 15px;
+        height: 15px;
+        accent-color: var(--spray);
+        cursor: pointer;
+      }
+
+      #generate {
+        margin-top: 8px;
+        padding: 12px;
+        font-family: "Archivo", system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: #101012;
+        background: var(--spray);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition:
+          background 0.3s,
+          transform 0.1s;
+      }
+
+      #generate:hover {
+        transform: translateY(-1px);
+      }
+      #generate:disabled {
+        opacity: 0.6;
+        cursor: default;
+        transform: none;
+      }
+
+      #error {
+        margin-top: 14px;
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        line-height: 1.5;
+        color: #ff6b5e;
+        white-space: pre-wrap;
+      }
+
+      #rail footer {
+        margin-top: auto;
+        padding-top: 24px;
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        color: #55555e;
+      }
+
+      #rail footer a {
+        color: inherit;
+      }
+
+      /* ---------- wall ---------- */
+
+      #stage {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        background: #b7b5ae;
+      }
+
+      #wall {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+
+      #fallback {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Sedgwick Ave Display", "Arial Black", sans-serif;
+        font-size: clamp(48px, 14vw, 180px);
+        color: var(--spray);
+      }
+
+      #meta {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        color: #4d4c47;
+        text-align: right;
+      }
+
+      #chips {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        gap: 8px;
+        padding: 16px 20px;
+        overflow-x: auto;
+      }
+
+      .chip {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        flex-shrink: 0;
+        padding: 8px 14px;
+        font-family: "Archivo", system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        color: var(--text);
+        background: rgba(18, 18, 21, 0.88);
+        border: 1px solid transparent;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: border-color 0.15s;
+      }
+
+      .chip .score {
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        font-weight: 400;
+        color: var(--muted);
+      }
+
+      .chip:hover {
+        border-color: #4a4a52;
+      }
+      .chip.active {
+        border-color: var(--spray);
+      }
+      .chip.active .score {
+        color: var(--spray);
+      }
+
+      #toast {
+        position: absolute;
+        left: 50%;
+        bottom: 76px;
+        transform: translateX(-50%);
+        padding: 8px 16px;
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+        color: var(--text);
+        background: rgba(18, 18, 21, 0.92);
+        border-radius: 999px;
+        opacity: 0;
+        transition: opacity 0.25s;
+        pointer-events: none;
+      }
+
+      #toast.show {
+        opacity: 1;
+      }
+
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+      }
+
+      @media (max-width: 860px) {
+        body {
+          flex-direction: column;
+        }
+        #rail {
+          width: 100%;
+          border-right: none;
+          border-bottom: 1px solid var(--rail-border);
+        }
+        #stage {
+          min-height: 62vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <aside id="rail">
+      <span class="eyebrow">Procedural · no AI</span>
+      <h1>Graffiti Name Generator</h1>
+
+      <form id="form">
+        <label
+          >Style
+          <select name="style" id="style"></select>
+        </label>
+        <div class="row">
+          <label
+            >Count
+            <input type="number" name="count" value="10" min="1" max="100" />
+          </label>
+          <label
+            >Seed
+            <input type="number" name="seed" placeholder="random" />
+          </label>
+        </div>
+        <div class="row">
+          <label
+            >Min length
+            <input type="number" name="minLength" value="4" min="3" max="12" />
+          </label>
+          <label
+            >Max length
+            <input type="number" name="maxLength" value="8" min="3" max="12" />
+          </label>
+        </div>
+        <div class="row">
+          <label
+            >Preferred
+            <input type="text" name="preferredLetters" placeholder="e.g. KZ" />
+          </label>
+          <label
+            >Forbidden
+            <input type="text" name="forbiddenLetters" placeholder="e.g. QW" />
+          </label>
+        </div>
+        <div class="row">
+          <label
+            >Prefix
+            <input type="text" name="prefix" maxlength="4" />
+          </label>
+          <label
+            >Suffix
+            <input type="text" name="suffix" maxlength="4" />
+          </label>
+        </div>
+        <label class="checkbox">
+          <input type="checkbox" name="pronounceable" checked />
+          Pronounceable
+        </label>
+        <button type="submit" id="generate">Generate</button>
+      </form>
+
+      <div id="error"></div>
+      <footer>
+        Created by
+        <a href="https://rubenglez.dev" target="_blank" rel="noreferrer"
+          >rubenglez</a
+        >
+      </footer>
+    </aside>
+
+    <main id="stage">
+      <canvas id="wall" title="Copy name"></canvas>
+      <div id="fallback" hidden></div>
+      <div id="meta"></div>
+      <div id="chips"></div>
+      <div id="toast"></div>
+      <div class="sr-only" role="status" aria-live="polite" id="live"></div>
+    </main>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>

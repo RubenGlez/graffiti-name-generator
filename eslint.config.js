@@ -5,7 +5,7 @@ import prettier from "eslint-config-prettier";
 
 export default tseslint.config(
   {
-    ignores: ["dist/**", "dist-test/**", "node_modules/**"],
+    ignores: ["dist/**", "dist-test/**", "web/dist/**", "node_modules/**"],
   },
   {
     files: ["src/**/*.ts", "test/**/*.ts"],
@@ -35,6 +35,12 @@ export default tseslint.config(
     languageOptions: {
       sourceType: "module",
       globals: globals.node,
+    },
+  },
+  {
+    files: ["web/main.js"],
+    languageOptions: {
+      globals: globals.browser,
     },
   },
   prettier,

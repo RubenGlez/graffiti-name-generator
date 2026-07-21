@@ -11,7 +11,7 @@ A fast, deterministic, procedural generator that produces unique, pronounceable 
 - **Fully Customizable:** Adjust character lengths, prefix/suffix affixes, allow/forbid specific characters, and choose from six distinct graffiti styles.
 - **Data-Driven:** Styles, phonetic blocks, allowed patterns, and consonant clusters are fully defined via JSON data files.
 - **English Wordlist and offensive filter:** Automatically checks names against a dictionary list of ~9,300 common English words and filters offensive slurs.
-- **CLI & Library API:** Use the utility library in your TypeScript/JavaScript ESM projects, or run it instantly from the command line.
+- **CLI, Library & Web:** Use the utility library in your TypeScript/JavaScript ESM projects, run it from the command line, or bundle it into a page; the engine has no runtime dependencies and works in the browser.
 
 ---
 
@@ -67,6 +67,21 @@ console.log(result.names.map(n => `${n.name} (Score: ${n.score})`));
 //   "DRAK (Score: 2)"
 // ]
 ```
+
+### In the browser
+
+The package entry point reads `data/` from disk, which browsers cannot do. Use
+the `browser` entry instead and hand it the data yourself (bundlers can inline
+the JSON and text files at build time):
+
+```typescript
+import { generate, setDataSource } from "@graffiti-name-generator/core/browser";
+
+setDataSource(() => ({ blocks, patterns, clusters, dictionary, blocklist, styles }));
+```
+
+`web/main.js` is a working example. Everything else, including determinism,
+behaves exactly as it does in Node.
 
 ### Options API
 
@@ -154,6 +169,22 @@ npm run generate -- --style old-school --count 5 --seed 42 --format json
   }
 }
 ```
+
+---
+
+## Web demo
+
+`web/` is a static single-page demo. The engine and all of its data are bundled
+into the page, so it runs entirely client-side: no API, no server, nothing to
+keep running once it is published.
+
+```bash
+npm run build:web   # bundle into web/dist (git-ignored)
+npm run web         # build, then serve web/dist at http://localhost:5713
+```
+
+`web/serve.js` exists only for local preview. To deploy, build with
+`npm ci && npm run build:web` and publish `web/dist` as static files.
 
 ---
 

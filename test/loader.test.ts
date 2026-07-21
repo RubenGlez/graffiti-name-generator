@@ -10,7 +10,8 @@ import {
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
-import { loadData, setDataDir, getStyle } from "../src/loader.js";
+import { loadData, getStyle } from "../src/loader.js";
+import { setDataDir } from "../src/loader-node.js";
 import { MissingDataError } from "../src/types.js";
 
 const testDir = dirname(fileURLToPath(import.meta.url));

@@ -3,7 +3,8 @@ import assert from "node:assert/strict";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { generate } from "../src/generator.js";
-import { setDataDir, loadData } from "../src/loader.js";
+import { loadData } from "../src/loader.js";
+import { setDataDir } from "../src/loader-node.js";
 import { normalizeOptions } from "../src/options.js";
 import { InvalidOptionsError } from "../src/types.js";
 

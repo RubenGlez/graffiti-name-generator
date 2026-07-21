@@ -29,12 +29,14 @@ graffiti-name-generator/
 │       ├── minimal.json
 │       └── hardcore.json
 ├── src/
-│   ├── index.ts              # Public API: generate()
+│   ├── index.ts              # Node entry: generate() + filesystem data
+│   ├── browser.ts            # Browser entry: generate() + injected data
 │   ├── generator.ts          # Main loop, retry budget
 │   ├── assembler.ts          # Pattern → block picks → string
 │   ├── scorer.ts             # Numeric scoring
 │   ├── filters.ts            # Dictionary, blocklist, clusters, duplicates
-│   ├── loader.ts             # Load and validate JSON/txt at startup
+│   ├── loader.ts             # Validate and cache data (no I/O)
+│   ├── loader-node.ts        # Filesystem data source
 │   ├── rng.ts                # Seeded mulberry32 PRNG
 │   ├── types.ts              # GenerateOptions, GenerateResult, etc.
 │   └── cli.ts                # `graffiti-names` binary
@@ -42,6 +44,8 @@ graffiti-name-generator/
 │   ├── generator.test.ts     # Golden tests with fixed seeds
 │   ├── scorer.test.ts
 │   └── filters.test.ts
+├── web/                      # Static demo (bundled, client-side only)
+├── scripts/build-web.js      # esbuild bundle → web/dist
 ├── package.json
 └── tsconfig.json
 ```
@@ -64,8 +68,12 @@ block strings, only weights.
 
 ### `loader`
 
-- Reads all data files once at first `generate()` call (cached)
+- Parses, validates and caches the data on the first `generate()` call
 - Validates JSON schema; throws `MissingDataError` on bad/missing files
+- Holds no I/O of its own: a data source is registered via `setDataSource()`,
+  so the same engine runs on Node (`loader-node` reads `data/`) and in the
+  browser (the host passes bundled data). Entry points wire this up; importing
+  `generator` alone leaves no source registered.
 
 ### `assembler`
 

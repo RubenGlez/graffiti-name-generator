@@ -2,7 +2,8 @@ import { describe, it, before } from "node:test";
 import assert from "node:assert/strict";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { setDataDir, loadData } from "../src/loader.js";
+import { loadData } from "../src/loader.js";
+import { setDataDir } from "../src/loader-node.js";
 import { STYLE_IDS } from "../src/types.js";
 import type { BlocksConfig } from "../src/types.js";
 

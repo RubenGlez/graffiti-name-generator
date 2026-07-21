@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { assembleCandidate } from "../src/assembler.js";
-import { setDataDir } from "../src/loader.js";
+import { setDataDir } from "../src/loader-node.js";
 import { createRng } from "../src/rng.js";
 import { STYLE_IDS } from "../src/types.js";
 

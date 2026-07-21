@@ -1,58 +1,27 @@
-import { readFileSync, existsSync } from "node:fs";
-import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
 import {
   MissingDataError,
   STYLE_IDS,
   type BlocksConfig,
+  type DataFiles,
   type LoadedData,
-  type PatternConfig,
   type StyleConfig,
   type StyleId,
 } from "./types.js";
 
 let cached: LoadedData | null = null;
-let dataDirOverride: string | null = null;
+let source: (() => DataFiles) | null = null;
 
-export function setDataDir(dir: string): void {
-  dataDirOverride = dir;
+/**
+ * Registers where raw data comes from. Node entry points install a filesystem
+ * source on import; browser builds install one backed by bundled data.
+ */
+export function setDataSource(read: () => DataFiles): void {
+  source = read;
   cached = null;
 }
 
-export function getDataDir(): string {
-  if (dataDirOverride) {
-    return dataDirOverride;
-  }
-
-  const moduleDir = dirname(fileURLToPath(import.meta.url));
-  const candidates = [
-    // Published/library layout: dist/loader.js -> ../data
-    join(moduleDir, "..", "data"),
-    // Test layout: dist-test/src/loader.js -> ../../data
-    join(moduleDir, "..", "..", "data"),
-    join(process.cwd(), "data"),
-  ];
-
-  for (const candidate of candidates) {
-    if (existsSync(join(candidate, "blocks.json"))) {
-      return candidate;
-    }
-  }
-
-  throw new MissingDataError("Could not locate data directory");
-}
-
-function readJson<T>(path: string): T {
-  if (!existsSync(path)) {
-    throw new MissingDataError(`Missing data file: ${path}`);
-  }
-
-  try {
-    return JSON.parse(readFileSync(path, "utf8")) as T;
-  } catch (error) {
-    const detail = error instanceof Error ? error.message : String(error);
-    throw new MissingDataError(`Invalid JSON in ${path}: ${detail}`);
-  }
+export function clearDataCache(): void {
+  cached = null;
 }
 
 const VALID_SLOTS = new Set([
@@ -190,15 +159,34 @@ function validateData(data: LoadedData): void {
   }
 }
 
-function readLines(path: string): string[] {
-  if (!existsSync(path)) {
-    throw new MissingDataError(`Missing data file: ${path}`);
-  }
-
-  return readFileSync(path, "utf8")
+function parseLines(text: string): string[] {
+  return text
     .split("\n")
     .map((line) => line.trim())
     .filter((line) => line.length > 0 && !line.startsWith("#"));
+}
+
+function buildData(files: DataFiles): LoadedData {
+  const styles = new Map<StyleId, StyleConfig>();
+  for (const id of STYLE_IDS) {
+    const style = files.styles[id];
+    if (!style) {
+      throw new MissingDataError(`Missing style: ${id}`);
+    }
+    if (style.id !== id) {
+      throw new MissingDataError(`Style id mismatch in ${id}.json`);
+    }
+    styles.set(id, style);
+  }
+
+  return {
+    blocks: files.blocks,
+    patterns: files.patterns,
+    clusters: new Set(files.clusters),
+    dictionary: new Set(parseLines(files.dictionary)),
+    blocklist: parseLines(files.blocklist),
+    styles,
+  };
 }
 
 export function loadData(): LoadedData {
@@ -206,33 +194,13 @@ export function loadData(): LoadedData {
     return cached;
   }
 
-  const dataDir = getDataDir();
-  const blocks = readJson<BlocksConfig>(join(dataDir, "blocks.json"));
-  const patterns = readJson<Record<string, PatternConfig>>(
-    join(dataDir, "patterns.json"),
-  );
-  const clusterList = readJson<string[]>(join(dataDir, "clusters.json"));
-  const dictionary = new Set(readLines(join(dataDir, "dictionary-en.txt")));
-  const blocklist = readLines(join(dataDir, "blocklist.txt"));
-
-  const styles = new Map<StyleId, StyleConfig>();
-  for (const id of STYLE_IDS) {
-    const style = readJson<StyleConfig>(join(dataDir, "styles", `${id}.json`));
-    if (style.id !== id) {
-      throw new MissingDataError(`Style id mismatch in ${id}.json`);
-    }
-    styles.set(id, style);
+  if (!source) {
+    throw new MissingDataError(
+      "No data source registered. Import the package entry point, or call setDataSource() first.",
+    );
   }
 
-  const data: LoadedData = {
-    blocks,
-    patterns,
-    clusters: new Set(clusterList),
-    dictionary,
-    blocklist,
-    styles,
-  };
-
+  const data = buildData(source());
   validateData(data);
 
   cached = data;
