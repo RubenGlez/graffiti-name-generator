@@ -57,6 +57,7 @@ const toastEl = document.getElementById("toast");
 const liveEl = document.getElementById("live");
 const canvas = document.getElementById("wall");
 const fallbackEl = document.getElementById("fallback");
+const introEl = document.getElementById("intro");
 
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -347,6 +348,8 @@ function resize() {
 function spray(name) {
   currentName = name;
   liveEl.textContent = name;
+  // The intro has done its job the moment a tag lands on the wall.
+  introEl.classList.add("spent");
   if (!gl) {
     fallbackEl.textContent = name;
     return;

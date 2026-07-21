@@ -252,6 +252,49 @@
         color: var(--spray);
       }
 
+      /*
+        Painted from static markup so it becomes the LCP element and lands with
+        the first paint. Everything else on the wall is canvas, which is not an
+        LCP candidate, so before this the metric fell to #meta, a line that does
+        not exist until the generator has run.
+      */
+      #intro {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 16px;
+        padding: 0 clamp(24px, 7vw, 90px);
+        pointer-events: none;
+        transition: opacity 0.7s ease-out;
+      }
+
+      #intro.spent {
+        opacity: 0;
+      }
+
+      #intro p {
+        margin: 0;
+        color: #35342f;
+      }
+
+      .intro-lead {
+        max-width: 16ch;
+        font-size: clamp(34px, 5.2vw, 68px);
+        font-weight: 600;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+      }
+
+      .intro-sub {
+        max-width: 46ch;
+        font-family: "Space Mono", monospace;
+        font-size: clamp(12px, 1.2vw, 14px);
+        line-height: 1.6;
+        color: #55544d;
+      }
+
       #meta {
         position: absolute;
         top: 16px;
@@ -396,6 +439,11 @@
         #stage {
           min-height: 62vh;
         }
+        /* Centred, the intro would sit almost entirely below the fold here. */
+        #intro {
+          justify-content: flex-start;
+          padding-top: 34px;
+        }
       }
     </style>
   </head>
@@ -489,6 +537,14 @@
       <main id="stage">
         <canvas id="wall" title="Copy name"></canvas>
         <div id="fallback" hidden></div>
+        <div id="intro">
+          <p class="intro-lead">Pick a tag you can actually paint.</p>
+          <p class="intro-sub">
+            Six styles, phonetic rules and a dictionary check, so what comes out
+            is pronounceable and is not an ordinary word. No AI anywhere. Every
+            batch carries the seed that produced it.
+          </p>
+        </div>
         <div id="meta"></div>
         <div id="chips"></div>
         <div id="toast"></div>
