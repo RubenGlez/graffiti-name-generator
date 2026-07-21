@@ -295,6 +295,10 @@ function upload() {
 
 let sprayStart = -1;
 let sprayColor = hexToRgb(DEFAULT_COLOR);
+let rafId = 0;
+
+// Reveal (1200ms) plus the drip growth that starts at 500ms and runs 3000ms.
+const SPRAY_DURATION = 3600;
 
 const easeOut = (t) => 1 - Math.pow(1 - Math.min(Math.max(t, 0), 1), 3);
 
@@ -302,10 +306,12 @@ function frame(now) {
   const t = now / 1000;
   let reveal = 1,
     drip = 1;
+  const elapsed = now - sprayStart;
+  const animating =
+    !reducedMotion && sprayStart >= 0 && elapsed < SPRAY_DURATION;
   if (!reducedMotion && sprayStart >= 0) {
-    const el = now - sprayStart;
-    reveal = easeOut(el / 1200);
-    drip = easeOut((el - 500) / 3000);
+    reveal = easeOut(elapsed / 1200);
+    drip = easeOut((elapsed - 500) / 3000);
   }
   gl.uniform2f(uniforms.res, canvas.width, canvas.height);
   gl.uniform1f(uniforms.time, t);
@@ -313,7 +319,17 @@ function frame(now) {
   gl.uniform1f(uniforms.drip, drip);
   gl.uniform3f(uniforms.color, sprayColor[0], sprayColor[1], sprayColor[2]);
   gl.drawArrays(gl.TRIANGLES, 0, 3);
-  requestAnimationFrame(frame);
+
+  // Once the paint has settled the wall is static: the only thing still moving
+  // is grain nobody can see. Keeping the loop alive costs a frame of main
+  // thread work forever, so stop and let spray()/resize() wake it again.
+  rafId = animating ? requestAnimationFrame(frame) : 0;
+}
+
+function draw() {
+  if (!rafId) {
+    rafId = requestAnimationFrame(frame);
+  }
 }
 
 function resize() {
@@ -325,6 +341,7 @@ function resize() {
   canvas.height = h;
   gl.viewport(0, 0, w, h);
   drawNameTexture(currentName);
+  draw();
 }
 
 function spray(name) {
@@ -336,6 +353,7 @@ function spray(name) {
   }
   drawNameTexture(name);
   sprayStart = performance.now();
+  draw();
 }
 
 /* ---------- UI wiring ---------- */
@@ -462,7 +480,7 @@ async function boot() {
     initGL();
     resize();
     new ResizeObserver(resize).observe(canvas);
-    requestAnimationFrame(frame);
+    draw();
   }
 
   loadStyles();
