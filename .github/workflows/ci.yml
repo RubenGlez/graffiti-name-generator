@@ -37,3 +37,8 @@ jobs:
 
       - name: Test
         run: npm test
+
+      # Not scoped with --omit=dev like the pnpm repos: this package has zero
+      # runtime dependencies, so a prod-only gate would never assert anything.
+      - name: Audit
+        run: npm audit --audit-level=high
