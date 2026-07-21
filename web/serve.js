@@ -12,6 +12,9 @@ const MIME_TYPES = {
   ".html": "text/html",
   ".js": "text/javascript",
   ".css": "text/css",
+  ".txt": "text/plain",
+  ".xml": "application/xml",
+  ".jpg": "image/jpeg",
 };
 
 const server = createServer(async (req, res) => {
@@ -31,8 +34,10 @@ const server = createServer(async (req, res) => {
     });
     res.end(body);
   } catch {
-    res.writeHead(404);
-    res.end("Not found");
+    // Mirror what Cloudflare Pages does with 404.html, so local preview shows
+    // the same page and status as production.
+    res.writeHead(404, { "Content-Type": "text/html" });
+    res.end(await readFile(join(root, "404.html")).catch(() => "Not found"));
   }
 });
 

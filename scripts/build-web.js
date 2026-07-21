@@ -20,7 +20,15 @@ await build({
   loader: { ".txt": "text" },
 });
 
-for (const file of ["index.html", "og.jpg"]) {
+// 404.html makes Cloudflare Pages answer unknown paths with a real 404 instead
+// of falling back to index.html with a 200.
+for (const file of [
+  "index.html",
+  "404.html",
+  "robots.txt",
+  "sitemap.xml",
+  "og.jpg",
+]) {
   copyFileSync(join(root, "web", file), join(outDir, file));
 }
 
