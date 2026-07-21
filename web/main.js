@@ -487,9 +487,12 @@ async function boot() {
   }
 
   loadStyles();
-  await document.fonts.load('400 200px "Sedgwick Ave Display"').catch(() => {});
 
-  form.requestSubmit();
+  // Nothing is generated on load: the intro is the wall's resting state, and
+  // the first tag is sprayed when the visitor asks for one. That keeps the
+  // reveal from flashing past before anyone can read the page, and leaves the
+  // main thread free while it is still loading.
+  await document.fonts.load('400 200px "Sedgwick Ave Display"').catch(() => {});
 }
 
 boot();
