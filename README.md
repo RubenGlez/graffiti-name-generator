@@ -174,6 +174,10 @@ npm run generate -- --style old-school --count 5 --seed 42 --format json
 
 ## Web demo
 
+Live at **[tags.rubenglez.dev](https://tags.rubenglez.dev)**, deployed from
+`main` on every push (Cloudflare Pages, build `npm run build:web`, output
+`web/dist`).
+
 `web/` is a static single-page demo. The engine and all of its data are bundled
 into the page, so it runs entirely client-side: no API, no server, nothing to
 keep running once it is published.
