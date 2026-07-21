@@ -152,10 +152,6 @@ export function checkCandidate(
 
 export function validateAffix(affix: string, data: LoadedData): boolean {
   const upper = affix.toUpperCase();
-  if (data.dictionary.has(upper)) {
-    return false;
-  }
-
   const lower = upper.toLowerCase();
   for (const term of data.blocklist) {
     if (lower.includes(term.toLowerCase())) {

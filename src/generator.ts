@@ -17,15 +17,11 @@ export function generate(options: GenerateOptions): GenerateResult {
   const style = getStyle(normalized.style);
 
   if (normalized.prefix && !validateAffix(normalized.prefix, data)) {
-    throw new InvalidOptionsError(
-      "prefix fails dictionary or blocklist validation",
-    );
+    throw new InvalidOptionsError("prefix contains a blocklisted term");
   }
 
   if (normalized.suffix && !validateAffix(normalized.suffix, data)) {
-    throw new InvalidOptionsError(
-      "suffix fails dictionary or blocklist validation",
-    );
+    throw new InvalidOptionsError("suffix contains a blocklisted term");
   }
 
   if (normalized.forbiddenLetters) {

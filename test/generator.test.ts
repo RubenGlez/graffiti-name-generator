@@ -192,11 +192,16 @@ describe("generator", () => {
     );
   });
 
-  it("throws when an affix is a dictionary word or blocklisted term", () => {
-    assert.throws(
-      () => generate({ style: "modern", prefix: "THE", seed: 1 }),
-      InvalidOptionsError,
-    );
+  it("allows dictionary-word affixes but rejects blocklisted terms", () => {
+    const result = generate({
+      style: "modern",
+      suffix: "ONE",
+      count: 3,
+      seed: 1,
+    });
+    assert.equal(result.names.length, 3);
+    assert.ok(result.names.every(({ name }) => name.endsWith("ONE")));
+
     assert.throws(
       () => generate({ style: "modern", suffix: "SHIT", seed: 1 }),
       InvalidOptionsError,

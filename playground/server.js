@@ -63,12 +63,15 @@ const server = createServer(async (req, res) => {
       res.end(JSON.stringify(result));
     } catch (error) {
       const status =
-        error instanceof InvalidOptionsError || error instanceof MissingDataError
+        error instanceof InvalidOptionsError ||
+        error instanceof MissingDataError
           ? 400
           : 500;
       res.writeHead(status, { "Content-Type": "application/json" });
       res.end(
-        JSON.stringify({ error: error instanceof Error ? error.message : String(error) }),
+        JSON.stringify({
+          error: error instanceof Error ? error.message : String(error),
+        }),
       );
     }
     return;

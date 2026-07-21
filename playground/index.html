@@ -1,387 +1,441 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Graffiti Name Generator — Playground</title>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎨</text></svg>" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link
-  href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
-  rel="stylesheet"
-/>
-<style>
-  :root {
-    --rail-bg: #131316;
-    --rail-border: #26262b;
-    --field-bg: #1c1c20;
-    --field-border: #2d2d34;
-    --text: #f0efe9;
-    --muted: #8a8a92;
-    --spray: #e2452e;
-  }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Graffiti Name Generator — Playground</title>
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='80' font-size='80'>🎨</text></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --rail-bg: #131316;
+        --rail-border: #26262b;
+        --field-bg: #1c1c20;
+        --field-border: #2d2d34;
+        --text: #f0efe9;
+        --muted: #8a8a92;
+        --spray: #e2452e;
+      }
 
-  * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
 
-  body {
-    margin: 0;
-    display: flex;
-    min-height: 100vh;
-    font-family: "Archivo", system-ui, sans-serif;
-    background: #131316;
-    color: var(--text);
-  }
+      body {
+        margin: 0;
+        display: flex;
+        min-height: 100vh;
+        font-family: "Archivo", system-ui, sans-serif;
+        background: #131316;
+        color: var(--text);
+      }
 
-  /* ---------- control rail ---------- */
+      /* ---------- control rail ---------- */
 
-  #rail {
-    width: 300px;
-    flex-shrink: 0;
-    display: flex;
-    flex-direction: column;
-    padding: 28px 24px 20px;
-    border-right: 1px solid var(--rail-border);
-  }
+      #rail {
+        width: 300px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 28px 24px 20px;
+        border-right: 1px solid var(--rail-border);
+      }
 
-  #rail .eyebrow {
-    font-family: "Space Mono", monospace;
-    font-size: 10px;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--spray);
-    transition: color 0.3s;
-  }
+      #rail .eyebrow {
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--spray);
+        transition: color 0.3s;
+      }
 
-  #rail h1 {
-    margin: 6px 0 28px;
-    font-size: 19px;
-    font-weight: 600;
-    letter-spacing: 0.01em;
-    line-height: 1.25;
-  }
+      #rail h1 {
+        margin: 6px 0 28px;
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        line-height: 1.25;
+      }
 
-  form {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
 
-  .row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
 
-  label {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    font-family: "Space Mono", monospace;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
-  }
+      label {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--muted);
+      }
 
-  input, select {
-    font-family: "Archivo", system-ui, sans-serif;
-    font-size: 14px;
-    color: var(--text);
-    background: var(--field-bg);
-    border: 1px solid var(--field-border);
-    border-radius: 6px;
-    padding: 8px 10px;
-    width: 100%;
-  }
+      input,
+      select {
+        font-family: "Archivo", system-ui, sans-serif;
+        font-size: 14px;
+        color: var(--text);
+        background: var(--field-bg);
+        border: 1px solid var(--field-border);
+        border-radius: 6px;
+        padding: 8px 10px;
+        width: 100%;
+      }
 
-  input::placeholder { color: #55555e; }
+      input::placeholder {
+        color: #55555e;
+      }
 
-  input:focus-visible, select:focus-visible, button:focus-visible, .chip:focus-visible {
-    outline: 2px solid var(--spray);
-    outline-offset: 1px;
-  }
+      input:focus-visible,
+      select:focus-visible,
+      button:focus-visible,
+      .chip:focus-visible {
+        outline: 2px solid var(--spray);
+        outline-offset: 1px;
+      }
 
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-  }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+      }
 
-  select {
-    appearance: none;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M1 1l4 4 4-4' stroke='%238a8a92' fill='none' stroke-width='1.5'/></svg>");
-    background-repeat: no-repeat;
-    background-position: right 10px center;
-    cursor: pointer;
-  }
+      select {
+        appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M1 1l4 4 4-4' stroke='%238a8a92' fill='none' stroke-width='1.5'/></svg>");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        cursor: pointer;
+      }
 
-  .checkbox {
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-  }
+      .checkbox {
+        flex-direction: row;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+      }
 
-  .checkbox input {
-    width: 15px;
-    height: 15px;
-    accent-color: var(--spray);
-    cursor: pointer;
-  }
+      .checkbox input {
+        width: 15px;
+        height: 15px;
+        accent-color: var(--spray);
+        cursor: pointer;
+      }
 
-  #generate {
-    margin-top: 8px;
-    padding: 12px;
-    font-family: "Archivo", system-ui, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.04em;
-    color: #101012;
-    background: var(--spray);
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.1s;
-  }
+      #generate {
+        margin-top: 8px;
+        padding: 12px;
+        font-family: "Archivo", system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        color: #101012;
+        background: var(--spray);
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition:
+          background 0.3s,
+          transform 0.1s;
+      }
 
-  #generate:hover { transform: translateY(-1px); }
-  #generate:disabled { opacity: 0.6; cursor: default; transform: none; }
+      #generate:hover {
+        transform: translateY(-1px);
+      }
+      #generate:disabled {
+        opacity: 0.6;
+        cursor: default;
+        transform: none;
+      }
 
-  #error {
-    margin-top: 14px;
-    font-family: "Space Mono", monospace;
-    font-size: 11px;
-    line-height: 1.5;
-    color: #ff6b5e;
-    white-space: pre-wrap;
-  }
+      #error {
+        margin-top: 14px;
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        line-height: 1.5;
+        color: #ff6b5e;
+        white-space: pre-wrap;
+      }
 
-  #rail footer {
-    margin-top: auto;
-    padding-top: 24px;
-    font-family: "Space Mono", monospace;
-    font-size: 10px;
-    color: #55555e;
-  }
+      #rail footer {
+        margin-top: auto;
+        padding-top: 24px;
+        font-family: "Space Mono", monospace;
+        font-size: 10px;
+        color: #55555e;
+      }
 
-  /* ---------- wall ---------- */
+      #rail footer a {
+        color: inherit;
+      }
 
-  #stage {
-    position: relative;
-    flex: 1;
-    min-width: 0;
-    background: #b7b5ae;
-  }
+      /* ---------- wall ---------- */
 
-  #wall {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-  }
+      #stage {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        background: #b7b5ae;
+      }
 
-  #fallback {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: "Sedgwick Ave Display", "Arial Black", sans-serif;
-    font-size: clamp(48px, 14vw, 180px);
-    color: var(--spray);
-  }
+      #wall {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
 
-  #meta {
-    position: absolute;
-    top: 16px;
-    right: 20px;
-    font-family: "Space Mono", monospace;
-    font-size: 11px;
-    color: #4d4c47;
-    text-align: right;
-  }
+      #fallback {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: "Sedgwick Ave Display", "Arial Black", sans-serif;
+        font-size: clamp(48px, 14vw, 180px);
+        color: var(--spray);
+      }
 
-  #chips {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    display: flex;
-    gap: 8px;
-    padding: 16px 20px;
-    overflow-x: auto;
-  }
+      #meta {
+        position: absolute;
+        top: 16px;
+        right: 20px;
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        color: #4d4c47;
+        text-align: right;
+      }
 
-  .chip {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-    flex-shrink: 0;
-    padding: 8px 14px;
-    font-family: "Archivo", system-ui, sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-    color: var(--text);
-    background: rgba(18, 18, 21, 0.88);
-    border: 1px solid transparent;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: border-color 0.15s;
-  }
+      #chips {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        gap: 8px;
+        padding: 16px 20px;
+        overflow-x: auto;
+      }
 
-  .chip .score {
-    font-family: "Space Mono", monospace;
-    font-size: 11px;
-    font-weight: 400;
-    color: var(--muted);
-  }
+      .chip {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        flex-shrink: 0;
+        padding: 8px 14px;
+        font-family: "Archivo", system-ui, sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.03em;
+        color: var(--text);
+        background: rgba(18, 18, 21, 0.88);
+        border: 1px solid transparent;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: border-color 0.15s;
+      }
 
-  .chip:hover { border-color: #4a4a52; }
-  .chip.active { border-color: var(--spray); }
-  .chip.active .score { color: var(--spray); }
+      .chip .score {
+        font-family: "Space Mono", monospace;
+        font-size: 11px;
+        font-weight: 400;
+        color: var(--muted);
+      }
 
-  #toast {
-    position: absolute;
-    left: 50%;
-    bottom: 76px;
-    transform: translateX(-50%);
-    padding: 8px 16px;
-    font-family: "Space Mono", monospace;
-    font-size: 12px;
-    color: var(--text);
-    background: rgba(18, 18, 21, 0.92);
-    border-radius: 999px;
-    opacity: 0;
-    transition: opacity 0.25s;
-    pointer-events: none;
-  }
+      .chip:hover {
+        border-color: #4a4a52;
+      }
+      .chip.active {
+        border-color: var(--spray);
+      }
+      .chip.active .score {
+        color: var(--spray);
+      }
 
-  #toast.show { opacity: 1; }
+      #toast {
+        position: absolute;
+        left: 50%;
+        bottom: 76px;
+        transform: translateX(-50%);
+        padding: 8px 16px;
+        font-family: "Space Mono", monospace;
+        font-size: 12px;
+        color: var(--text);
+        background: rgba(18, 18, 21, 0.92);
+        border-radius: 999px;
+        opacity: 0;
+        transition: opacity 0.25s;
+        pointer-events: none;
+      }
 
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-  }
+      #toast.show {
+        opacity: 1;
+      }
 
-  @media (max-width: 860px) {
-    body { flex-direction: column; }
-    #rail {
-      width: 100%;
-      border-right: none;
-      border-bottom: 1px solid var(--rail-border);
-    }
-    #stage { min-height: 62vh; }
-  }
-</style>
-</head>
-<body>
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+      }
 
-<aside id="rail">
-  <span class="eyebrow">Playground</span>
-  <h1>Graffiti Name Generator</h1>
+      @media (max-width: 860px) {
+        body {
+          flex-direction: column;
+        }
+        #rail {
+          width: 100%;
+          border-right: none;
+          border-bottom: 1px solid var(--rail-border);
+        }
+        #stage {
+          min-height: 62vh;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <aside id="rail">
+      <span class="eyebrow">Playground</span>
+      <h1>Graffiti Name Generator</h1>
 
-  <form id="form">
-    <label>Style
-      <select name="style" id="style"></select>
-    </label>
-    <div class="row">
-      <label>Count
-        <input type="number" name="count" value="10" min="1" max="100" />
-      </label>
-      <label>Seed
-        <input type="number" name="seed" placeholder="random" />
-      </label>
-    </div>
-    <div class="row">
-      <label>Min length
-        <input type="number" name="minLength" value="4" min="3" max="12" />
-      </label>
-      <label>Max length
-        <input type="number" name="maxLength" value="8" min="3" max="12" />
-      </label>
-    </div>
-    <div class="row">
-      <label>Preferred
-        <input type="text" name="preferredLetters" placeholder="e.g. KZ" />
-      </label>
-      <label>Forbidden
-        <input type="text" name="forbiddenLetters" placeholder="e.g. QW" />
-      </label>
-    </div>
-    <div class="row">
-      <label>Prefix
-        <input type="text" name="prefix" maxlength="4" />
-      </label>
-      <label>Suffix
-        <input type="text" name="suffix" maxlength="4" />
-      </label>
-    </div>
-    <label class="checkbox">
-      <input type="checkbox" name="pronounceable" checked />
-      Pronounceable
-    </label>
-    <button type="submit" id="generate">Generate</button>
-  </form>
+      <form id="form">
+        <label
+          >Style
+          <select name="style" id="style"></select>
+        </label>
+        <div class="row">
+          <label
+            >Count
+            <input type="number" name="count" value="10" min="1" max="100" />
+          </label>
+          <label
+            >Seed
+            <input type="number" name="seed" placeholder="random" />
+          </label>
+        </div>
+        <div class="row">
+          <label
+            >Min length
+            <input type="number" name="minLength" value="4" min="3" max="12" />
+          </label>
+          <label
+            >Max length
+            <input type="number" name="maxLength" value="8" min="3" max="12" />
+          </label>
+        </div>
+        <div class="row">
+          <label
+            >Preferred
+            <input type="text" name="preferredLetters" placeholder="e.g. KZ" />
+          </label>
+          <label
+            >Forbidden
+            <input type="text" name="forbiddenLetters" placeholder="e.g. QW" />
+          </label>
+        </div>
+        <div class="row">
+          <label
+            >Prefix
+            <input type="text" name="prefix" maxlength="4" />
+          </label>
+          <label
+            >Suffix
+            <input type="text" name="suffix" maxlength="4" />
+          </label>
+        </div>
+        <label class="checkbox">
+          <input type="checkbox" name="pronounceable" checked />
+          Pronounceable
+        </label>
+        <button type="submit" id="generate">Generate</button>
+      </form>
 
-  <div id="error"></div>
-  <footer>@graffiti-name-generator/core v0.1.0</footer>
-</aside>
+      <div id="error"></div>
+      <footer>
+        Created by
+        <a href="https://rubenglez.dev" target="_blank" rel="noreferrer"
+          >rubenglez</a
+        >
+      </footer>
+    </aside>
 
-<main id="stage">
-  <canvas id="wall" title="Copy name"></canvas>
-  <div id="fallback" hidden></div>
-  <div id="meta"></div>
-  <div id="chips"></div>
-  <div id="toast"></div>
-  <div class="sr-only" role="status" aria-live="polite" id="live"></div>
-</main>
+    <main id="stage">
+      <canvas id="wall" title="Copy name"></canvas>
+      <div id="fallback" hidden></div>
+      <div id="meta"></div>
+      <div id="chips"></div>
+      <div id="toast"></div>
+      <div class="sr-only" role="status" aria-live="polite" id="live"></div>
+    </main>
 
-<script>
-/* ---------- spray colors per style (classic cap colors) ---------- */
+    <script>
+      /* ---------- spray colors per style (classic cap colors) ---------- */
 
-const SPRAY_COLORS = {
-  "old-school": "#e2452e",
-  "modern": "#3d7bff",
-  "wildstyle": "#a94bff",
-  "tech": "#00b8a0",
-  "minimal": "#f2f0ea",
-  "hardcore": "#e62e7b",
-};
-const DEFAULT_COLOR = "#e2452e";
+      const SPRAY_COLORS = {
+        "old-school": "#e2452e",
+        modern: "#3d7bff",
+        wildstyle: "#a94bff",
+        tech: "#00b8a0",
+        minimal: "#f2f0ea",
+        hardcore: "#e62e7b",
+      };
+      const DEFAULT_COLOR = "#e2452e";
 
-function hexToRgb(hex) {
-  const n = parseInt(hex.slice(1), 16);
-  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
-}
+      function hexToRgb(hex) {
+        const n = parseInt(hex.slice(1), 16);
+        return [
+          ((n >> 16) & 255) / 255,
+          ((n >> 8) & 255) / 255,
+          (n & 255) / 255,
+        ];
+      }
 
-/* ---------- DOM ---------- */
+      /* ---------- DOM ---------- */
 
-const form = document.getElementById("form");
-const styleSelect = document.getElementById("style");
-const generateBtn = document.getElementById("generate");
-const errorEl = document.getElementById("error");
-const metaEl = document.getElementById("meta");
-const chipsEl = document.getElementById("chips");
-const toastEl = document.getElementById("toast");
-const liveEl = document.getElementById("live");
-const canvas = document.getElementById("wall");
-const fallbackEl = document.getElementById("fallback");
+      const form = document.getElementById("form");
+      const styleSelect = document.getElementById("style");
+      const generateBtn = document.getElementById("generate");
+      const errorEl = document.getElementById("error");
+      const metaEl = document.getElementById("meta");
+      const chipsEl = document.getElementById("chips");
+      const toastEl = document.getElementById("toast");
+      const liveEl = document.getElementById("live");
+      const canvas = document.getElementById("wall");
+      const fallbackEl = document.getElementById("fallback");
 
-const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const reducedMotion = matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
 
-/* ---------- WebGL spray-paint wall ---------- */
+      /* ---------- WebGL spray-paint wall ---------- */
 
-const VERT = `
+      const VERT = `
 attribute vec2 a_pos;
 void main() { gl_Position = vec4(a_pos, 0.0, 1.0); }
 `;
 
-const FRAG = `
+      const FRAG = `
 precision highp float;
 uniform vec2 u_res;
 uniform float u_time;
@@ -468,297 +522,355 @@ void main() {
 }
 `;
 
-const gl = canvas.getContext("webgl", { antialias: false });
-let uniforms = null;
+      const gl = canvas.getContext("webgl", { antialias: false });
+      let uniforms = null;
 
-function initGL() {
-  function compile(type, src) {
-    const s = gl.createShader(type);
-    gl.shaderSource(s, src);
-    gl.compileShader(s);
-    if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
-      throw new Error(gl.getShaderInfoLog(s));
-    }
-    return s;
-  }
-  const prog = gl.createProgram();
-  gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
-  gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
-  gl.linkProgram(prog);
-  gl.useProgram(prog);
+      function initGL() {
+        function compile(type, src) {
+          const s = gl.createShader(type);
+          gl.shaderSource(s, src);
+          gl.compileShader(s);
+          if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+            throw new Error(gl.getShaderInfoLog(s));
+          }
+          return s;
+        }
+        const prog = gl.createProgram();
+        gl.attachShader(prog, compile(gl.VERTEX_SHADER, VERT));
+        gl.attachShader(prog, compile(gl.FRAGMENT_SHADER, FRAG));
+        gl.linkProgram(prog);
+        gl.useProgram(prog);
 
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
-  const loc = gl.getAttribLocation(prog, "a_pos");
-  gl.enableVertexAttribArray(loc);
-  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        const buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(
+          gl.ARRAY_BUFFER,
+          new Float32Array([-1, -1, 3, -1, -1, 3]),
+          gl.STATIC_DRAW,
+        );
+        const loc = gl.getAttribLocation(prog, "a_pos");
+        gl.enableVertexAttribArray(loc);
+        gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
 
-  const tex = gl.createTexture();
-  gl.bindTexture(gl.TEXTURE_2D, tex);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        const tex = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, tex);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
 
-  uniforms = {
-    res: gl.getUniformLocation(prog, "u_res"),
-    time: gl.getUniformLocation(prog, "u_time"),
-    reveal: gl.getUniformLocation(prog, "u_reveal"),
-    drip: gl.getUniformLocation(prog, "u_drip"),
-    motion: gl.getUniformLocation(prog, "u_motion"),
-    color: gl.getUniformLocation(prog, "u_color"),
-  };
-  gl.uniform1f(uniforms.motion, reducedMotion ? 0.0 : 1.0);
-}
-
-/* ---------- name texture: sharp tag in R, drip gradients in G ---------- */
-
-const texCanvas = document.createElement("canvas");
-let currentName = "";
-
-function drawNameTexture(name) {
-  const W = canvas.width, H = canvas.height;
-  if (!W || !H) return;
-  texCanvas.width = W;
-  texCanvas.height = H;
-  const ctx = texCanvas.getContext("2d");
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, W, H);
-  if (!name) { upload(); return; }
-
-  let size = H * 0.42;
-  ctx.font = `${size}px "Sedgwick Ave Display", "Arial Black", sans-serif`;
-  const width = ctx.measureText(name).width;
-  const maxW = W * 0.84;
-  if (width > maxW) {
-    size *= maxW / width;
-    ctx.font = `${size}px "Sedgwick Ave Display", "Arial Black", sans-serif`;
-  }
-  ctx.textAlign = "center";
-  ctx.textBaseline = "middle";
-  ctx.fillStyle = "#ff0000";
-  ctx.fillText(name, W / 2, H * 0.44);
-
-  drawDrips(ctx, W, H);
-  upload();
-}
-
-function drawDrips(ctx, W, H) {
-  // find the bottom-most painted pixel per column, then hang drips off a few
-  const img = ctx.getImageData(0, 0, W, H).data;
-  const candidates = [];
-  for (let x = 4; x < W; x += 6) {
-    for (let y = H - 1; y >= 0; y--) {
-      if (img[(y * W + x) * 4] > 120) {
-        candidates.push({ x, y });
-        break;
+        uniforms = {
+          res: gl.getUniformLocation(prog, "u_res"),
+          time: gl.getUniformLocation(prog, "u_time"),
+          reveal: gl.getUniformLocation(prog, "u_reveal"),
+          drip: gl.getUniformLocation(prog, "u_drip"),
+          motion: gl.getUniformLocation(prog, "u_motion"),
+          color: gl.getUniformLocation(prog, "u_color"),
+        };
+        gl.uniform1f(uniforms.motion, reducedMotion ? 0.0 : 1.0);
       }
-    }
-  }
-  if (!candidates.length) return;
 
-  candidates.sort(() => Math.random() - 0.5);
-  const target = Math.min(14, Math.max(6, Math.round(candidates.length / 14)));
-  const picked = [];
-  for (const c of candidates) {
-    if (picked.length >= target) break;
-    if (picked.every((p) => Math.abs(p.x - c.x) > W * 0.02)) picked.push(c);
-  }
+      /* ---------- name texture: sharp tag in R, drip gradients in G ---------- */
 
-  ctx.globalCompositeOperation = "lighter";
-  for (const { x, y } of picked) {
-    const len = H * (0.04 + Math.random() * 0.14);
-    const w = 2 + Math.random() * 4;
-    const grad = ctx.createLinearGradient(0, y, 0, y + len);
-    grad.addColorStop(0, "rgba(0,255,0,0.95)");
-    grad.addColorStop(1, "rgba(0,255,0,0.12)");
-    ctx.fillStyle = grad;
-    ctx.beginPath();
-    ctx.moveTo(x - w / 2, y - 2);
-    ctx.lineTo(x - w * 0.16, y + len);
-    ctx.lineTo(x + w * 0.16, y + len);
-    ctx.lineTo(x + w / 2, y - 2);
-    ctx.closePath();
-    ctx.fill();
-  }
-  ctx.globalCompositeOperation = "source-over";
-}
+      const texCanvas = document.createElement("canvas");
+      let currentName = "";
 
-function upload() {
-  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texCanvas);
-}
+      function drawNameTexture(name) {
+        const W = canvas.width,
+          H = canvas.height;
+        if (!W || !H) return;
+        texCanvas.width = W;
+        texCanvas.height = H;
+        const ctx = texCanvas.getContext("2d");
+        ctx.fillStyle = "#000";
+        ctx.fillRect(0, 0, W, H);
+        if (!name) {
+          upload();
+          return;
+        }
 
-/* ---------- render loop ---------- */
+        let size = H * 0.42;
+        ctx.font = `${size}px "Sedgwick Ave Display", "Arial Black", sans-serif`;
+        const width = ctx.measureText(name).width;
+        const maxW = W * 0.84;
+        if (width > maxW) {
+          size *= maxW / width;
+          ctx.font = `${size}px "Sedgwick Ave Display", "Arial Black", sans-serif`;
+        }
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillStyle = "#ff0000";
+        ctx.fillText(name, W / 2, H * 0.44);
 
-let sprayStart = -1;
-let sprayColor = hexToRgb(DEFAULT_COLOR);
+        drawDrips(ctx, W, H);
+        upload();
+      }
 
-const easeOut = (t) => 1 - Math.pow(1 - Math.min(Math.max(t, 0), 1), 3);
+      function drawDrips(ctx, W, H) {
+        // find the bottom-most painted pixel per column, then hang drips off a few
+        const img = ctx.getImageData(0, 0, W, H).data;
+        const candidates = [];
+        for (let x = 4; x < W; x += 6) {
+          for (let y = H - 1; y >= 0; y--) {
+            if (img[(y * W + x) * 4] > 120) {
+              candidates.push({ x, y });
+              break;
+            }
+          }
+        }
+        if (!candidates.length) return;
 
-function frame(now) {
-  const t = now / 1000;
-  let reveal = 1, drip = 1;
-  if (!reducedMotion && sprayStart >= 0) {
-    const el = now - sprayStart;
-    reveal = easeOut(el / 1200);
-    drip = easeOut((el - 500) / 3000);
-  }
-  gl.uniform2f(uniforms.res, canvas.width, canvas.height);
-  gl.uniform1f(uniforms.time, t);
-  gl.uniform1f(uniforms.reveal, reveal);
-  gl.uniform1f(uniforms.drip, drip);
-  gl.uniform3f(uniforms.color, sprayColor[0], sprayColor[1], sprayColor[2]);
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
-  requestAnimationFrame(frame);
-}
+        candidates.sort(() => Math.random() - 0.5);
+        const target = Math.min(
+          14,
+          Math.max(6, Math.round(candidates.length / 14)),
+        );
+        const picked = [];
+        for (const c of candidates) {
+          if (picked.length >= target) break;
+          if (picked.every((p) => Math.abs(p.x - c.x) > W * 0.02))
+            picked.push(c);
+        }
 
-function resize() {
-  const dpr = Math.min(devicePixelRatio || 1, 2);
-  const w = Math.round(canvas.clientWidth * dpr);
-  const h = Math.round(canvas.clientHeight * dpr);
-  if (w === canvas.width && h === canvas.height) return;
-  canvas.width = w;
-  canvas.height = h;
-  gl.viewport(0, 0, w, h);
-  drawNameTexture(currentName);
-}
+        ctx.globalCompositeOperation = "lighter";
+        for (const { x, y } of picked) {
+          const len = H * (0.04 + Math.random() * 0.14);
+          const w = 2 + Math.random() * 4;
+          const grad = ctx.createLinearGradient(0, y, 0, y + len);
+          grad.addColorStop(0, "rgba(0,255,0,0.95)");
+          grad.addColorStop(1, "rgba(0,255,0,0.12)");
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.moveTo(x - w / 2, y - 2);
+          ctx.lineTo(x - w * 0.16, y + len);
+          ctx.lineTo(x + w * 0.16, y + len);
+          ctx.lineTo(x + w / 2, y - 2);
+          ctx.closePath();
+          ctx.fill();
+        }
+        ctx.globalCompositeOperation = "source-over";
+      }
 
-function spray(name) {
-  currentName = name;
-  liveEl.textContent = name;
-  if (!gl) {
-    fallbackEl.textContent = name;
-    return;
-  }
-  drawNameTexture(name);
-  sprayStart = performance.now();
-}
+      function upload() {
+        gl.texImage2D(
+          gl.TEXTURE_2D,
+          0,
+          gl.RGBA,
+          gl.RGBA,
+          gl.UNSIGNED_BYTE,
+          texCanvas,
+        );
+      }
 
-/* ---------- UI wiring ---------- */
+      /* ---------- render loop ---------- */
 
-function setSprayColor(styleId) {
-  const hex = SPRAY_COLORS[styleId] ?? DEFAULT_COLOR;
-  sprayColor = hexToRgb(hex);
-  document.documentElement.style.setProperty("--spray", hex);
-}
+      let sprayStart = -1;
+      let sprayColor = hexToRgb(DEFAULT_COLOR);
 
-async function loadStyles() {
-  const res = await fetch("/styles");
-  const styles = await res.json();
-  styleSelect.innerHTML = styles
-    .map((id) => `<option value="${id}">${id.replace(/-/g, " ")}</option>`)
-    .join("");
-  setSprayColor(styleSelect.value);
-}
+      const easeOut = (t) => 1 - Math.pow(1 - Math.min(Math.max(t, 0), 1), 3);
 
-styleSelect.addEventListener("change", () => setSprayColor(styleSelect.value));
+      function frame(now) {
+        const t = now / 1000;
+        let reveal = 1,
+          drip = 1;
+        if (!reducedMotion && sprayStart >= 0) {
+          const el = now - sprayStart;
+          reveal = easeOut(el / 1200);
+          drip = easeOut((el - 500) / 3000);
+        }
+        gl.uniform2f(uniforms.res, canvas.width, canvas.height);
+        gl.uniform1f(uniforms.time, t);
+        gl.uniform1f(uniforms.reveal, reveal);
+        gl.uniform1f(uniforms.drip, drip);
+        gl.uniform3f(
+          uniforms.color,
+          sprayColor[0],
+          sprayColor[1],
+          sprayColor[2],
+        );
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        requestAnimationFrame(frame);
+      }
 
-function formToOptions(form) {
-  const data = new FormData(form);
-  const options = { style: data.get("style") };
+      function resize() {
+        const dpr = Math.min(devicePixelRatio || 1, 2);
+        const w = Math.round(canvas.clientWidth * dpr);
+        const h = Math.round(canvas.clientHeight * dpr);
+        if (w === canvas.width && h === canvas.height) return;
+        canvas.width = w;
+        canvas.height = h;
+        gl.viewport(0, 0, w, h);
+        drawNameTexture(currentName);
+      }
 
-  for (const key of ["count", "minLength", "maxLength", "seed"]) {
-    const value = data.get(key);
-    if (value) options[key] = Number(value);
-  }
+      function spray(name) {
+        currentName = name;
+        liveEl.textContent = name;
+        if (!gl) {
+          fallbackEl.textContent = name;
+          return;
+        }
+        drawNameTexture(name);
+        sprayStart = performance.now();
+      }
 
-  for (const key of ["preferredLetters", "forbiddenLetters", "prefix", "suffix"]) {
-    const value = data.get(key);
-    if (value) options[key] = value;
-  }
+      /* ---------- UI wiring ---------- */
 
-  options.pronounceable = data.get("pronounceable") === "on";
-  return options;
-}
+      function setSprayColor(styleId) {
+        const hex = SPRAY_COLORS[styleId] ?? DEFAULT_COLOR;
+        sprayColor = hexToRgb(hex);
+        document.documentElement.style.setProperty("--spray", hex);
+      }
 
-function renderResults(result) {
-  const names = [...result.names].sort((a, b) => b.score - a.score);
-  chipsEl.innerHTML = "";
-  names.forEach((n, i) => {
-    const chip = document.createElement("button");
-    chip.className = "chip" + (i === 0 ? " active" : "");
-    chip.type = "button";
-    chip.innerHTML = `${n.name} <span class="score">${n.score}</span>`;
-    chip.title = `pattern ${n.pattern}`;
-    chip.addEventListener("click", () => {
-      chipsEl.querySelector(".active")?.classList.remove("active");
-      chip.classList.add("active");
-      spray(n.name);
-    });
-    chipsEl.appendChild(chip);
-  });
+      async function loadStyles() {
+        const res = await fetch("/styles");
+        const styles = await res.json();
+        styleSelect.innerHTML = styles
+          .map(
+            (id) => `<option value="${id}">${id.replace(/-/g, " ")}</option>`,
+          )
+          .join("");
+        setSprayColor(styleSelect.value);
+      }
 
-  const m = result.meta;
-  metaEl.textContent =
-    `${m.style} · seed ${m.seed} · ${m.attempts} attempts · ${m.rejected} rejected` +
-    (m.exhausted ? " · pool exhausted" : "");
+      styleSelect.addEventListener("change", () =>
+        setSprayColor(styleSelect.value),
+      );
 
-  if (names.length) spray(names[0].name);
-}
+      function formToOptions(form) {
+        const data = new FormData(form);
+        const options = { style: data.get("style") };
 
-form.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  errorEl.textContent = "";
-  generateBtn.disabled = true;
+        for (const key of ["count", "minLength", "maxLength", "seed"]) {
+          const value = data.get(key);
+          if (value) options[key] = Number(value);
+        }
 
-  try {
-    const res = await fetch("/generate", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formToOptions(form)),
-    });
-    const result = await res.json();
-    if (!res.ok) {
-      errorEl.textContent = result.error;
-      return;
-    }
-    renderResults(result);
-  } catch (error) {
-    errorEl.textContent = String(error);
-  } finally {
-    generateBtn.disabled = false;
-  }
-});
+        for (const key of [
+          "preferredLetters",
+          "forbiddenLetters",
+          "prefix",
+          "suffix",
+        ]) {
+          const value = data.get(key);
+          if (value) options[key] = value;
+        }
 
-/* click the wall to copy the current name */
-let toastTimer;
-canvas.addEventListener("click", async () => {
-  if (!currentName) return;
-  try {
-    await navigator.clipboard.writeText(currentName);
-    toastEl.textContent = `${currentName} copied`;
-  } catch {
-    toastEl.textContent = currentName;
-  }
-  toastEl.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toastEl.classList.remove("show"), 1400);
-});
+        options.pronounceable = data.get("pronounceable") === "on";
+        return options;
+      }
 
-/* ---------- boot ---------- */
+      function exhaustionMessage(options) {
+        const consonant = /[BCDFGHJKLMNPQRSTVWXYZ]/i;
+        const hasConsonantBoundary =
+          options.pronounceable &&
+          (consonant.test((options.prefix ?? "").at(-1) ?? "") ||
+            consonant.test((options.suffix ?? "")[0] ?? ""));
 
-async function boot() {
-  if (!gl) {
-    canvas.hidden = true;
-    fallbackEl.hidden = false;
-  } else {
-    initGL();
-    resize();
-    new ResizeObserver(resize).observe(canvas);
-    requestAnimationFrame(frame);
-  }
+        if (hasConsonantBoundary) {
+          return "With Pronounceable enabled, a consonant-ending prefix or consonant-starting suffix must form an approved cluster with the generated name. Try an affix with a vowel at that boundary, or turn off Pronounceable.";
+        }
 
-  await Promise.all([
-    loadStyles(),
-    document.fonts.load('400 200px "Sedgwick Ave Display"').catch(() => {}),
-  ]);
+        return "Try changing the style, length, or other filters.";
+      }
 
-  form.requestSubmit();
-}
+      function renderResults(result, options) {
+        const names = [...result.names].sort((a, b) => b.score - a.score);
+        chipsEl.innerHTML = "";
+        names.forEach((n, i) => {
+          const chip = document.createElement("button");
+          chip.className = "chip" + (i === 0 ? " active" : "");
+          chip.type = "button";
+          chip.innerHTML = `${n.name} <span class="score">${n.score}</span>`;
+          chip.title = `pattern ${n.pattern}`;
+          chip.addEventListener("click", () => {
+            chipsEl.querySelector(".active")?.classList.remove("active");
+            chip.classList.add("active");
+            spray(n.name);
+          });
+          chipsEl.appendChild(chip);
+        });
 
-boot();
-</script>
-</body>
+        const m = result.meta;
+        metaEl.textContent =
+          `${m.style} · seed ${m.seed} · ${m.attempts} attempts · ${m.rejected} rejected` +
+          (m.exhausted ? " · pool exhausted" : "");
+
+        if (m.exhausted) {
+          const summary = names.length
+            ? `Only generated ${names.length} of ${m.requested} names.`
+            : "No names matched these settings.";
+          errorEl.textContent = `${summary} ${exhaustionMessage(options)}`;
+        }
+
+        if (names.length) spray(names[0].name);
+      }
+
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        errorEl.textContent = "";
+        generateBtn.disabled = true;
+
+        try {
+          const options = formToOptions(form);
+          const res = await fetch("/generate", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(options),
+          });
+          const result = await res.json();
+          if (!res.ok) {
+            errorEl.textContent = result.error;
+            return;
+          }
+          renderResults(result, options);
+        } catch (error) {
+          errorEl.textContent = String(error);
+        } finally {
+          generateBtn.disabled = false;
+        }
+      });
+
+      /* click the wall to copy the current name */
+      let toastTimer;
+      canvas.addEventListener("click", async () => {
+        if (!currentName) return;
+        try {
+          await navigator.clipboard.writeText(currentName);
+          toastEl.textContent = `${currentName} copied`;
+        } catch {
+          toastEl.textContent = currentName;
+        }
+        toastEl.classList.add("show");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => toastEl.classList.remove("show"), 1400);
+      });
+
+      /* ---------- boot ---------- */
+
+      async function boot() {
+        if (!gl) {
+          canvas.hidden = true;
+          fallbackEl.hidden = false;
+        } else {
+          initGL();
+          resize();
+          new ResizeObserver(resize).observe(canvas);
+          requestAnimationFrame(frame);
+        }
+
+        await Promise.all([
+          loadStyles(),
+          document.fonts
+            .load('400 200px "Sedgwick Ave Display"')
+            .catch(() => {}),
+        ]);
+
+        form.requestSubmit();
+      }
+
+      boot();
+    </script>
+  </body>
 </html>

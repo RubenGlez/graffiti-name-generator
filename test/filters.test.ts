@@ -108,9 +108,10 @@ describe("filters", () => {
     assert.equal(result.score, 14);
   });
 
-  it("validates affix against dictionary", () => {
+  it("allows dictionary-word affixes while still applying the blocklist", () => {
     const data = loadData();
-    assert.equal(validateAffix("THE", data), false);
+    assert.equal(validateAffix("THE", data), true);
+    assert.equal(validateAffix("ONE", data), true);
     assert.equal(validateAffix("MC", data), true);
   });
 });
