@@ -44,24 +44,10 @@
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <!--
-      Loaded without blocking the first paint: the display font is only needed
-      once the canvas paints a tag, and boot() already waits for it. The
-      media/onload swap is the standard trick; noscript keeps it working when
-      scripting is off.
-    -->
     <link
-      rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
-      media="print"
-      onload="this.media = 'all'"
+      rel="stylesheet"
     />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Sedgwick+Ave+Display&family=Archivo:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap"
-      />
-    </noscript>
     <style>
       :root {
         --rail-bg: #131316;
