@@ -35,7 +35,7 @@
     "web": "npm run build:web && node web/serve.js"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
